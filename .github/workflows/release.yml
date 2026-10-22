@@ -1,7 +1,7 @@
 name: Release
 
-# Push a tag such as v0.1.0. The workflow tests, builds one stand-alone file per platform and creates a draft
-# GitHub Release with the archives and their checksums. Publish the draft by hand after checking it.
+# Push a tag such as v0.1.0. The workflow tests, builds the universal zip (runs with `dotnet` on Windows, Linux and
+# macOS) and creates a draft GitHub Release with the zip and its checksum. Publish the draft by hand after checking it.
 on:
   push:
     tags: ["v*"]
@@ -21,83 +21,43 @@ jobs:
       - name: Fast tests
         run: dotnet test -c Release --filter "Category!=E2E&Category!=E2EMatrix"
 
-  build:
-    name: Build ${{ matrix.rid }}
-    needs: test
-    strategy:
-      fail-fast: true
-      matrix:
-        include:
-          - { rid: win-x64, os: windows-latest }
-          - { rid: win-arm64, os: windows-latest }
-          - { rid: linux-x64, os: ubuntu-latest }
-          - { rid: linux-arm64, os: ubuntu-latest }
-          # macOS builds run on macOS: Apple Silicon only runs a file that was signed (ad hoc) during a macOS build.
-          - { rid: osx-x64, os: macos-latest }
-          - { rid: osx-arm64, os: macos-latest }
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          global-json-file: global.json
-      - name: Version from tag
-        shell: bash
-        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_ENV"
-      - name: Publish
-        shell: bash
-        run: >
-          dotnet publish src/Umbraco.Engage.HealthCheck.Cli -c Release -r ${{ matrix.rid }}
-          -p:Version=$VERSION -o publish/${{ matrix.rid }}
-      - name: Check the version
-        if: matrix.rid == 'win-x64' || matrix.rid == 'linux-x64' || matrix.rid == 'osx-arm64'
-        shell: bash
-        run: |
-          actual="$(./publish/${{ matrix.rid }}/engage-healthcheck --version)"
-          echo "engage-healthcheck --version: $actual"
-          [[ "${actual%%+*}" == "$VERSION" ]] || { echo "Expected $VERSION"; exit 1; }
-      - name: Archive
-        shell: bash
-        run: |
-          name="engage-healthcheck-$VERSION-${{ matrix.rid }}"
-          mkdir -p "dist/$name"
-          cp publish/${{ matrix.rid }}/engage-healthcheck* README.md LICENSE THIRD-PARTY-NOTICES.md "dist/$name/"
-          rm -f "dist/$name"/*.pdb
-          cd dist
-          if [[ "${{ matrix.rid }}" == win-* ]]; then
-            7z a -tzip "$name.zip" "$name" > /dev/null
-          else
-            chmod +x "$name/engage-healthcheck"
-            tar -czf "$name.tar.gz" "$name"
-          fi
-          rm -rf "$name"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.rid }}
-          path: dist/*
-          if-no-files-found: error
-          # Only the release job needs these; the release keeps its own copies.
-          retention-days: 1
-
   release:
-    name: Draft release
-    needs: build
+    name: Build and draft release
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       contents: write
       id-token: write
       attestations: write
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
         with:
-          path: dist
-          merge-multiple: true
-      - name: Checksums
+          global-json-file: global.json
+      - name: Version from tag
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_ENV"
+      - name: Publish
+        run: >
+          dotnet publish src/Umbraco.Engage.HealthCheck.Cli -c Release -p:UseAppHost=false
+          -p:Version=$VERSION -o "dist/engage-healthcheck-$VERSION"
+      - name: Check the version
+        run: |
+          actual="$(dotnet "dist/engage-healthcheck-$VERSION/engage-healthcheck.dll" --version)"
+          echo "engage-healthcheck --version: $actual"
+          [[ "${actual%%+*}" == "$VERSION" ]] || { echo "Expected $VERSION"; exit 1; }
+      - name: Archive
         working-directory: dist
-        run: sha256sum * > SHA256SUMS.txt && cat SHA256SUMS.txt
+        run: |
+          name="engage-healthcheck-$VERSION"
+          rm -f "$name"/*.pdb
+          cp ../README.md ../LICENSE ../THIRD-PARTY-NOTICES.md "$name/"
+          zip -qr "$name.zip" "$name"
+          rm -rf "$name"
+          sha256sum "$name.zip" > SHA256SUMS.txt
+          cat SHA256SUMS.txt
       - uses: actions/attest-build-provenance@v2
         with:
-          subject-path: dist/*
+          subject-path: dist/*.zip
       - name: Create the draft release
         env:
           GH_TOKEN: ${{ github.token }}

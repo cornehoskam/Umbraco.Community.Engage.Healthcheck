@@ -1,6 +1,6 @@
 # Third-party notices
 
-The stand-alone builds of Engage Health Check include the .NET runtime and the packages below. Each keeps its own licence. The health check itself is MIT-licensed (see [LICENSE](LICENSE)).
+The release zip of Engage Health Check includes the packages below; the optional stand-alone builds also include the .NET runtime. Each keeps its own licence. The health check itself is MIT-licensed (see [LICENSE](LICENSE)).
 
 ## MIT licence
 
@@ -58,7 +58,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## Windows builds only
+## Used on Windows only
 
 | Component | Version | Licence |
 |---|---|---|

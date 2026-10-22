@@ -45,32 +45,20 @@ The lists below are kept in sync with `catalog/releases.json` by hand. A test (`
 
 ## Install
 
-Download the file for your system from the [latest release](https://github.com/cornehoskam/Umbraco.Engage.HealthCheck/releases/latest). It is one stand-alone program: you do not need .NET, Docker or this repository.
+The tool is meant for developers debugging an Engage database from their own machine, not for installing on the site's server.
 
-| System | File |
-|---|---|
-| Windows (Intel or AMD) | `engage-healthcheck-<version>-win-x64.zip` |
-| Windows (ARM) | `engage-healthcheck-<version>-win-arm64.zip` |
-| Linux (Intel or AMD) | `engage-healthcheck-<version>-linux-x64.tar.gz` |
-| Linux (ARM) | `engage-healthcheck-<version>-linux-arm64.tar.gz` |
-| macOS (Apple Silicon) | `engage-healthcheck-<version>-osx-arm64.tar.gz` |
-| macOS (Intel) | `engage-healthcheck-<version>-osx-x64.tar.gz` |
+1. Download `engage-healthcheck-<version>.zip` from the [latest release](https://github.com/cornehoskam/Umbraco.Engage.HealthCheck/releases/latest). The same zip works on Windows, Linux and macOS.
+2. Unpack it.
+3. Run it with .NET from that folder: `dotnet engage-healthcheck.dll check`.
 
-Unpack it and run `engage-healthcheck check` from that folder (`.\engage-healthcheck.exe check` on Windows).
+To check a download, compare it with `SHA256SUMS.txt` from the same release (`sha256sum -c SHA256SUMS.txt`), or verify where it was built with `gh attestation verify <file> --repo cornehoskam/Umbraco.Engage.HealthCheck`.
 
-The builds are not code-signed yet, so the first start may be blocked:
-
-- **Windows:** SmartScreen says "Windows protected your PC". Choose **More info**, then **Run anyway**.
-- **macOS:** remove the download quarantine once: `xattr -d com.apple.quarantine ./engage-healthcheck`.
-- **Linux:** the program needs the ICU library (`libicu`), which most distributions already have.
-
-To check a download, compare it with `SHA256SUMS.txt` from the same release (`sha256sum -c SHA256SUMS.txt --ignore-missing`), or verify where it was built with `gh attestation verify <file> --repo cornehoskam/Umbraco.Engage.HealthCheck`.
-
-The examples below use `engage-healthcheck`. From a clone of this repository, use `dotnet run --project src/Umbraco.Engage.HealthCheck.Cli --` in its place.
+The examples below use `engage-healthcheck`. With the release zip that means `dotnet engage-healthcheck.dll`; from a clone of this repository, `dotnet run --project src/Umbraco.Engage.HealthCheck.Cli --`.
 
 ## Requirements
 
-- Nothing to install for the downloaded program. From source: the .NET 10 SDK. Docker is only needed to generate manifests and to run the tests, the fast ones included: they start a SQL Server container.
+- The .NET 10 runtime or newer for the release zip (`dotnet --list-runtimes` shows what you have). From source: the .NET 10 SDK. Docker is only needed to generate manifests and to run the tests, the fast ones included: they start a SQL Server container.
+- On Linux the ICU library (`libicu`), which most distributions already have.
 - Windows authentication works on Windows. On Linux and macOS it needs Kerberos to be set up (`kinit`); use a SQL login when it does not work.
 - A login with `db_datareader` and `VIEW DEFINITION` on the Engage database.
 - The same permissions on the Umbraco database, when Engage uses a separate database. Give that connection string with `--umbraco-db`. The upgrade record lives in the Umbraco database, and the tool never joins across the two databases.

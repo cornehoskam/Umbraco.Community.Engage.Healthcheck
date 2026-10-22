@@ -6,10 +6,13 @@
     <IsPackable>true</IsPackable>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>engage-healthcheck</ToolCommandName>
+    <!-- Runs on .NET 10 or any newer runtime. -->
+    <RollForward>Major</RollForward>
   </PropertyGroup>
 
-  <!-- Stand-alone release builds (dotnet publish -r <rid>): one file with the .NET runtime inside. No trimming or
-       Native AOT: Microsoft.Data.SqlClient supports neither. No InvariantGlobalization: SqlClient refuses it on connect. -->
+  <!-- Optional stand-alone builds (dotnet publish -r <rid>): one file with the .NET runtime inside. The release itself is
+       the universal build that runs with dotnet. No trimming or Native AOT: Microsoft.Data.SqlClient supports neither.
+       No InvariantGlobalization: SqlClient refuses it on connect. -->
   <PropertyGroup Condition="'$(RuntimeIdentifier)' != ''">
     <SelfContained>true</SelfContained>
     <PublishSingleFile>true</PublishSingleFile>
