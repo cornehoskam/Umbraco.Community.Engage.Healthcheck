@@ -270,6 +270,21 @@
         "manifests/engage/17.2.3.fresh.json (fresh install: contentTypeId NOT NULL)",
         "manifests/engage/17.2.0.fresh.json and 17.2.4.fresh.json (the same lastMigrationStep)"
       ]
+    },
+    {
+      "product": "Engage",
+      "versions": ["16.3.0", "16.3.1", "16.3.2", "17.2.0", "17.2.1", "17.2.2"],
+      "assumption": "complete with the published script = complete",
+      "holds": false,
+      "stored": null,
+      "installedFrom": "16.1.2 (V16), 17.1.1 (V17)",
+      "differences": 1,
+      "kinds": { "ColumnNullabilityDifferent": 1 },
+      "reason": "Completed with the alignment scripts published in the Engage schema alignment guide (22-10-2026), umbracoEngageAnalyticsUmbracoPageVariant.contentTypeId becomes NOT NULL; the stored complete manifests of these releases keep it NULL. Everything else is identical. Both shapes are real: the stored one is what a database completed at the time looks like. A database completed with the published script matches the 16.3.3 or 17.2.3-17.2.4 complete manifest exactly (same last migration step), so detection reports it as 16.3.3 or as between 17.2.3 and 17.2.4, healthy.",
+      "sources": [
+        "manifests/engage/16.3.0.complete.json and 17.2.0.complete.json (contentTypeId NULL)",
+        "manifests/engage/16.3.3.complete.json and 17.2.3.complete.json (contentTypeId NOT NULL, the shape the published script gives)"
+      ]
     }
   ]
 }

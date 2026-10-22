@@ -24,6 +24,7 @@ public static class KnownVariants
 {
     public const string CompleteEqualsFresh = "complete = fresh";
     public const string UpgradedEqualsFresh = "upgraded = fresh";
+    public const string PublishedScriptEqualsComplete = "complete with the published script = complete";
     private static readonly JsonSerializerOptions Options = new(JsonSerializerDefaults.Web) { ReadCommentHandling = JsonCommentHandling.Skip };
 
     public static KnownVariantsFile Parse(string json)

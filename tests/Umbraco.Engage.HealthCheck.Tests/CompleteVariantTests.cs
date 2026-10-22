@@ -136,6 +136,27 @@ public class KnownVariantsTests
         Assert.Equal(JsonValueKind.Null, upgraded.GetProperty("stored").ValueKind);
         Assert.All(entries, e => Assert.False(string.IsNullOrWhiteSpace(e.GetProperty("reason").GetString())));
     }
+
+    [Fact]
+    public void A_database_completed_with_the_published_script_matches_the_next_complete_group_exactly()
+    {
+        // The published CompleteAlignSchema.sql makes contentTypeId NOT NULL, which the older own-release scripts did not:
+        // a 16.3.0-16.3.2 or 17.2.0-17.2.2 database completed with it has the 16.3.3 or 17.2.3 complete shape.
+        var file = Umbraco.Engage.HealthCheck.Generator.Verify.KnownVariants.Parse(File.ReadAllText(Path.Combine(Root(), "catalog", "known-variants.json")));
+        var entry = Assert.Single(file.Entries, e => e.Assumption == Umbraco.Engage.HealthCheck.Generator.Verify.KnownVariants.PublishedScriptEqualsComplete);
+        Assert.Equal(["16.3.0", "16.3.1", "16.3.2", "17.2.0", "17.2.1", "17.2.2"], entry.Versions);
+        Assert.Null(entry.Stored);
+
+        var store = new ManifestStore(null);
+        foreach (var version in entry.Versions)
+        {
+            var stored = store.Find(Products.Engage, version, Variants.Complete)!;
+            var published = store.Find(Products.Engage, version.StartsWith("16.", StringComparison.Ordinal) ? "16.3.3" : "17.2.3", Variants.Complete)!;
+            var differences = Umbraco.Engage.HealthCheck.Core.Comparison.SchemaComparer.Compare(published.Schema, stored.Schema);
+            Assert.True(Umbraco.Engage.HealthCheck.Generator.Verify.KnownVariants.Matches(entry, differences), $"{version}: {differences.Count} differences");
+            Assert.Equal(published.LastMigrationStep, stored.LastMigrationStep);
+        }
+    }
 }
 
 public class StatusAcrossMajorsTests
