@@ -55,7 +55,9 @@ jobs:
           rm -rf "$name"
           sha256sum "$name.zip" > SHA256SUMS.txt
           cat SHA256SUMS.txt
+      # GitHub only stores attestations for public repositories (or organisation-owned ones).
       - uses: actions/attest-build-provenance@v2
+        if: ${{ !github.event.repository.private }}
         with:
           subject-path: dist/*.zip
       - name: Create the draft release
