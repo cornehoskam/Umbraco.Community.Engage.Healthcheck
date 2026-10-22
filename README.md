@@ -2,7 +2,12 @@
 
 Database health check for Umbraco Engage: schema, upgrade state and version detection. A read-only command-line check for Umbraco Engage databases. It finds out which Engage version your database is on, compares the database with the schema that version is supposed to have, and lists every difference. It never writes to your database.
 
-> Experimental.
+> [!WARNING]
+> **Experimental. Use at your own risk.**
+>
+> This is a personal project. It is not made, endorsed or supported by Umbraco, and Umbraco is not affiliated with it. Don't contact Umbraco support about this tool; open an issue in this repository instead.
+>
+> The check only reads from your database, but its results can be wrong or incomplete. Always take a backup and verify a finding yourself before you act on it. The software is provided "as is", without warranty of any kind (see [LICENSE](LICENSE)).
 
 ## What it does
 
