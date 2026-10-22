@@ -155,6 +155,8 @@ public class ReportTests
         var names = doc.RootElement.EnumerateObject().Select(p => p.Name).Order().ToArray();
         var expected = new[] { "formatVersion", "toolVersion", "checkedAtUtc", "targetVersion", "targetVariant", "targetSource", "detection", "state", "addOns", "summary", "findings", "exitCode" }.Order().ToArray();
         Assert.Equal(expected, names);
+        // The tool version is the plain release version, without the "+commit" build suffix.
+        Assert.DoesNotContain("+", doc.RootElement.GetProperty("toolVersion").GetString());
 
         // Version text only: no server, database or user names can get in.
         var detection = new[] { "basis", "versions", "firstVersion", "lastVersion", "comparedWith", "exact", "recordMatchesSchema", "recordedVersions", "critical", "warning", "alternatives", "recordedUpTo", "tableAnalysis", "variant", "notice", "cmsMajor" }.Order().ToArray();

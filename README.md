@@ -43,9 +43,35 @@ The lists below are kept in sync with `catalog/releases.json` by hand. A test (`
 - **Aligned and completed variants** for the 17 Engage releases that have an alignment step: 13.8.0 to 13.8.1, 16.3.0 to 16.3.3, 17.2.0 to 17.5.0 and 18.1.0 to 18.2.0.
 - **104 manifests in total:** 70 fresh (Engage 50, Forms 14, Commerce 6), 17 aligned and 17 completed.
 
+## Install
+
+Download the file for your system from the [latest release](https://github.com/cornehoskam/Umbraco.Engage.HealthCheck/releases/latest). It is one stand-alone program: you do not need .NET, Docker or this repository.
+
+| System | File |
+|---|---|
+| Windows (Intel or AMD) | `engage-healthcheck-<version>-win-x64.zip` |
+| Windows (ARM) | `engage-healthcheck-<version>-win-arm64.zip` |
+| Linux (Intel or AMD) | `engage-healthcheck-<version>-linux-x64.tar.gz` |
+| Linux (ARM) | `engage-healthcheck-<version>-linux-arm64.tar.gz` |
+| macOS (Apple Silicon) | `engage-healthcheck-<version>-osx-arm64.tar.gz` |
+| macOS (Intel) | `engage-healthcheck-<version>-osx-x64.tar.gz` |
+
+Unpack it and run `engage-healthcheck check` from that folder (`.\engage-healthcheck.exe check` on Windows).
+
+The builds are not code-signed yet, so the first start may be blocked:
+
+- **Windows:** SmartScreen says "Windows protected your PC". Choose **More info**, then **Run anyway**.
+- **macOS:** remove the download quarantine once: `xattr -d com.apple.quarantine ./engage-healthcheck`.
+- **Linux:** the program needs the ICU library (`libicu`), which most distributions already have.
+
+To check a download, compare it with `SHA256SUMS.txt` from the same release (`sha256sum -c SHA256SUMS.txt --ignore-missing`), or verify where it was built with `gh attestation verify <file> --repo cornehoskam/Umbraco.Engage.HealthCheck`.
+
+The examples below use `engage-healthcheck`. From a clone of this repository, use `dotnet run --project src/Umbraco.Engage.HealthCheck.Cli --` in its place.
+
 ## Requirements
 
-- .NET 10 SDK to run it from source. Running the check itself needs no Docker. Docker is needed to generate manifests and to run the tests, the fast ones included: they start a SQL Server container.
+- Nothing to install for the downloaded program. From source: the .NET 10 SDK. Docker is only needed to generate manifests and to run the tests, the fast ones included: they start a SQL Server container.
+- Windows authentication works on Windows. On Linux and macOS it needs Kerberos to be set up (`kinit`); use a SQL login when it does not work.
 - A login with `db_datareader` and `VIEW DEFINITION` on the Engage database.
 - The same permissions on the Umbraco database, when Engage uses a separate database. Give that connection string with `--umbraco-db`. The upgrade record lives in the Umbraco database, and the tool never joins across the two databases.
 
@@ -65,7 +91,7 @@ $env:ENGAGE_HEALTHCHECK_UMBRACO_DB = "Server=...;Database=...;..."
 ```
 
 ```bash
-dotnet run --project src/Umbraco.Engage.HealthCheck.Cli -- check
+engage-healthcheck check
 ```
 
 Run `check` with no options and it prompts for what it needs. Connection strings are masked as you type. With no `--expect` it detects the version and checks against that.
@@ -91,7 +117,7 @@ export ENGAGE_HEALTHCHECK_UMBRACO_DATABASE="UmbracoDb"
 # Only for a self-signed certificate:
 export ENGAGE_HEALTHCHECK_TRUST_SERVER_CERTIFICATE=true
 
-dotnet run --project src/Umbraco.Engage.HealthCheck.Cli -- check
+engage-healthcheck check
 ```
 
 ```powershell
@@ -102,13 +128,13 @@ $env:ENGAGE_HEALTHCHECK_PASSWORD = "..."   # or leave it out and answer the mask
 $env:ENGAGE_HEALTHCHECK_UMBRACO_DATABASE = "UmbracoDb"
 $env:ENGAGE_HEALTHCHECK_TRUST_SERVER_CERTIFICATE = "true"
 
-dotnet run --project src/Umbraco.Engage.HealthCheck.Cli -- check
+engage-healthcheck check
 ```
 
 Windows authentication, with flags only (no secret involved):
 
 ```bash
-dotnet run --project src/Umbraco.Engage.HealthCheck.Cli -- check --server localhost --database EngageDb --trust-server-certificate
+engage-healthcheck check --server localhost --database EngageDb --trust-server-certificate
 ```
 
 Interactive, `check` first asks "Connection string, or press Enter to enter server details". Press Enter and it asks for server, database, login (Enter means Windows authentication), password (masked, only when you gave a login), whether to trust the server certificate, and the Umbraco database (Enter means the same database).

@@ -2,8 +2,20 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <AssemblyName>engage-healthcheck</AssemblyName>
+    <IsPackable>true</IsPackable>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>engage-healthcheck</ToolCommandName>
+  </PropertyGroup>
+
+  <!-- Stand-alone release builds (dotnet publish -r <rid>): one file with the .NET runtime inside. No trimming or
+       Native AOT: Microsoft.Data.SqlClient supports neither. No InvariantGlobalization: SqlClient refuses it on connect. -->
+  <PropertyGroup Condition="'$(RuntimeIdentifier)' != ''">
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup>

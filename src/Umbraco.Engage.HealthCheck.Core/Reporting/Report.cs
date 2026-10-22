@@ -36,7 +36,7 @@ public sealed record Report(
     public static Report Create(Manifest manifest, MigrationState state, IReadOnlyList<AddOnResult> addOns, IReadOnlyList<Finding> findings, DateTimeOffset now,
         DetectionResult? detection = null, string targetSource = FromOption) => new(
         CurrentFormatVersion,
-        typeof(Report).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "0.0.0",
+        Banner.CurrentVersion(typeof(Report).Assembly),
         now.ToUniversalTime(),
         manifest.Version,
         manifest.Variant,
