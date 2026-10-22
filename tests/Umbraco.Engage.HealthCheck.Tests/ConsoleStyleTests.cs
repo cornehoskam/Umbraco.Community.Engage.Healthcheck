@@ -120,7 +120,7 @@ public class ConsoleStyleTests
     [Fact]
     public void Upgrade_record_says_extra_line_is_yellow()
     {
-        // Closest match while the record disagrees with the schema: the extra line from issue #99.
+        // Closest match while the record disagrees with the schema: the extra line from https://github.com/umbraco/Umbraco.Engage.Issues/issues/99.
         var (_, style) = Render(WithDetection(D("17.4.0", exact: false, recordMatches: false)));
         Assert.Equal(ConsoleColor.Yellow, style.ColorOf("Upgrade record says"));
     }

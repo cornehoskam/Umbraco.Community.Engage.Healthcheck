@@ -108,35 +108,32 @@ public static class Verifier
     }
 
     /// <summary>
-    /// Runs the documented prerequisite EnsureDataConsistency.sql and then CompleteAlignSchema.sql, both read at the release
-    /// tag, in single-database mode on <paramref name="cs"/>. Returns the tag the scripts came from. With
-    /// <paramref name="ownTagOnly"/> a release without its own script is an error instead of using a later tag's script.
-    /// Throws when no usable script exists or a batch fails; the generator and verify share this one path.
+    /// Runs the documented prerequisite EnsureDataConsistency.sql (when the folder has it) and then CompleteAlignSchema.sql
+    /// for the release's major from <paramref name="scriptsFolder"/>, in single-database mode on <paramref name="cs"/>.
+    /// Returns the path of the CompleteAlignSchema.sql it ran. Throws when the script is missing or a batch fails; the
+    /// generator and verify share this one path.
     /// </summary>
-    public static async Task<string> RunAlignScriptsAsync(
-        string cs, Release release, ReleaseCatalog catalog, string reposRoot, TextWriter log, CancellationToken ct, bool ownTagOnly = false)
+    public static async Task<string> RunAlignScriptsAsync(string cs, Release release, string scriptsFolder, TextWriter log, CancellationToken ct)
     {
-        var (tag, note) = AlignScripts.ScriptTagFor(release, catalog,
-            t => AlignScripts.ReadAtTag(reposRoot, release.Major, t, AlignScripts.CompleteAlignSchema) is not null);
-        if (tag is null || (ownTagOnly && note is not null))
-            throw new InvalidOperationException($"No {AlignScripts.CompleteAlignSchema} for {release}: {note ?? "not at its tag"}.");
-        if (note is not null) log.WriteLine($"Note: {note}");
+        var completePath = AlignScripts.Find(scriptsFolder, release.Major, AlignScripts.CompleteAlignSchema)
+            ?? throw new InvalidOperationException($"No {AlignScripts.CompleteAlignSchema} for {release.Major} in {scriptsFolder}.");
+        var complete = await File.ReadAllTextAsync(completePath, ct);
+        if (AlignScripts.SingleDatabaseProblem(complete) is { } problem) throw new InvalidOperationException($"{completePath}: {problem}");
 
-        var complete = AlignScripts.ReadAtTag(reposRoot, release.Major, tag, AlignScripts.CompleteAlignSchema)!;
-        if (AlignScripts.SingleDatabaseProblem(complete) is { } problem) throw new InvalidOperationException($"{tag}: {problem}");
-        var ensure = AlignScripts.ReadAtTag(reposRoot, release.Major, tag, AlignScripts.EnsureDataConsistency);
-
-        if (ensure is not null) await RunScriptAsync(cs, ensure, $"{tag}:{AlignScripts.EnsureDataConsistency}", log, ct);
-        await RunScriptAsync(cs, complete, $"{tag}:{AlignScripts.CompleteAlignSchema}", log, ct);
-        return tag;
+        if (AlignScripts.Find(scriptsFolder, release.Major, AlignScripts.EnsureDataConsistency) is { } ensurePath)
+            await RunScriptAsync(cs, await File.ReadAllTextAsync(ensurePath, ct), ensurePath, log, ct);
+        else
+            log.WriteLine($"Note: no {AlignScripts.EnsureDataConsistency} for {release.Major} in {scriptsFolder}; running {AlignScripts.CompleteAlignSchema} only.");
+        await RunScriptAsync(cs, complete, completePath, log, ct);
+        return completePath;
     }
 
     /// <summary>Runs the alignment scripts (<see cref="RunAlignScriptsAsync"/>) on the aligned database, then <see cref="Judge"/>s the result.</summary>
     public static async Task<AssumptionVerdict> CompleteAndJudgeAsync(
-        string cs, Release release, ReleaseCatalog catalog, string reposRoot, Manifest fresh, Manifest? complete, KnownVariantEntry? known, TextWriter log, CancellationToken ct)
+        string cs, Release release, string scriptsFolder, Manifest fresh, Manifest? complete, KnownVariantEntry? known, TextWriter log, CancellationToken ct)
     {
-        string tag;
-        try { tag = await RunAlignScriptsAsync(cs, release, catalog, reposRoot, log, ct); }
+        string script;
+        try { script = await RunAlignScriptsAsync(cs, release, scriptsFolder, log, ct); }
         catch (Exception ex) when (ex is SqlException or InvalidOperationException)
         {
             return new AssumptionVerdict(new VerifyOutcome(false, $"scripts failed: {ex.Message.ReplaceLineEndings(" ")}", [], null, false), null, null);
@@ -145,7 +142,7 @@ public static class Verifier
         var schema = ManifestGenerator.EngageOnly(await SqlServerSchemaReader.ReadAsync(cs, ct));
         var state = await MigrationStateReader.ReadAsync(cs, ct);
         var verdict = Judge(schema, state, fresh, complete, known, CompleteStatus);
-        return verdict with { Assumption = verdict.Assumption with { Summary = $"{verdict.Assumption.Summary}; scripts from {tag}" } };
+        return verdict with { Assumption = verdict.Assumption with { Summary = $"{verdict.Assumption.Summary}; scripts from {script}" } };
     }
 
     /// <summary>Runs a script batch by batch on one connection, so its ## temp tables live across batches. PRINT output goes to the log.</summary>

@@ -14,7 +14,7 @@ public class CompleteVariantTests
 {
     private static readonly DatabaseSchema Fresh = SchemaBuilder.Baseline();
 
-    // Complete: like fresh, but without the child's index (AlignSchema drops the IX_<table>_key indexes).
+    // Complete: like fresh, but without the child's index (a completed database has no IX_<table>_key indexes).
     private static readonly DatabaseSchema Complete = SchemaBuilder.Db(Fresh.Tables
         .Select(t => t.Name == "umbracoEngageChild" ? t with { Indexes = [] } : t).ToArray());
 

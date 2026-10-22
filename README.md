@@ -228,7 +228,10 @@ You only need this section to add a release or regenerate manifests. Running the
 
 Everything the tool knows about a release is data: a catalog line plus generated manifests. Docker must be running for the generator.
 
-The last-step check (run by `generate-all`), the aligned and complete variants, and `verify` need read access to the Engage, Forms and Commerce source repos: they read migration plans and SQL scripts at release tags. Those repos are not public, so these commands are for maintainers with that access. Only `generate` for a fresh manifest works from the public NuGet packages alone. Give the folder that holds those repos with `--repos <folder>` or set `ENGAGE_REPOS`. A command that needs it stops with a clear message when neither is set.
+Everything the generator uses is public:
+
+- **The Engage, Forms and Commerce packages from nuget.org.** The hosts install them, and `generate-all` checks each manifest's last upgrade step against the migration plan in that release's package. It reads the packages from your NuGet cache (`--nuget` points elsewhere), which the host builds fill.
+- **The alignment scripts.** The complete variant, `generate --variant aligned --verify` and `verify` run `EnsureDataConsistency.sql` and `CompleteAlignSchema.sql`. Download them from the [Engage schema alignment guide](https://docs.umbraco.com/umbraco-engage/upgrading/schema-alignment-guide) for each major you need. Put them in one folder, or in `V13`, `V16`, `V17` and `V18` subfolders, and give it with `--align-scripts <folder>` or set `ENGAGE_ALIGN_SCRIPTS`. A command that needs the scripts stops with a clear message when neither is set.
 
 Generator commands (run from the repo root):
 
@@ -274,7 +277,7 @@ These are the generator's codes, not the health check's (see "Reading the result
 | `0` | Done. For `verify`: the assumption holds. |
 | `1` | A release failed (`generate-all`), a verify assumption failed, or `cms-states` found a host whose final state maps to another major. |
 | `2` | The catalog could not be read. |
-| `3` | Usage error: a missing or conflicting option, a release that is not in the catalog, or no `--repos` and no `ENGAGE_REPOS` for a command that needs them. |
+| `3` | Usage error: a missing or conflicting option, a release that is not in the catalog, or no `--align-scripts` and no `ENGAGE_ALIGN_SCRIPTS` for a command that needs them. |
 | `4` | `verify`, or `generate --verify`: the assumption does not hold, but the difference is a recorded known variant. |
 
 ### Tests
@@ -294,8 +297,8 @@ Every catalog release has been checked on a real database: [docs/verification/al
 Each case provisions a SQL Server database the way the catalog says (host, CMS version, `installFrom` staging, add-ons next to their `engage` release), runs the check with no `--expect` and the built-in manifests, and checks the detected version range, the variant, the upgrade record, the CMS major read from the database and the exit code. One aligned and one complete case per major are included. The run writes `docs/verification/all-releases-<dd-MM-yyyy>.md`.
 
 ```bash
-# The complete cases run CompleteAlignSchema.sql from the release tag, so they need the Engage source repos.
-export ENGAGE_REPOS="<folder with the Engage source repos>"
+# The complete cases run the alignment scripts from the Engage schema alignment guide (see "For maintainers").
+export ENGAGE_ALIGN_SCRIPTS="<folder with the downloaded scripts>"
 dotnet test --filter "Category=E2EMatrix"
 ```
 

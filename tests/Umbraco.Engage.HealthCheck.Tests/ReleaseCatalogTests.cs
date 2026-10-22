@@ -97,75 +97,99 @@ public class ReleaseCatalogTests
     }
 }
 
-public class MigrationPlanReaderTests
+public class PackagePlanReaderTests
 {
+    private static PlanInstruction S(string text) => new PlanInstruction.Literal(text);
+    private static PlanInstruction C(string method) => new PlanInstruction.Call(method);
+
     [Fact]
-    public void Guid_form_takes_the_last_target_and_ignores_comments()
+    public void The_last_To_call_takes_the_literal_loaded_since_the_call_before_it()
     {
-        const string plan = """
-            To<AddA>("{11111111-1111-1111-1111-111111111111}");
-            To<AddB>("{22222222-2222-2222-2222-222222222222}");
-            // To<Old>("{99999999-9999-9999-9999-999999999999}");
-            To("{33333333-3333-3333-3333-333333333333}"); // reserved
-            // V17.5.0 contains
-            """;
-        Assert.Equal("{33333333-3333-3333-3333-333333333333}", MigrationPlanReader.LastStep(plan));
+        PlanInstruction[] plan =
+        [
+            S("Umbraco.Engage"), C(".ctor"), C("From"),
+            S("{11111111-1111-1111-1111-111111111111}"), C("To"),
+            S("{22222222-2222-2222-2222-222222222222}"), C("To"),
+        ];
+        Assert.Equal(("{22222222-2222-2222-2222-222222222222}", null), PackagePlanReader.LastState(plan));
     }
 
     [Fact]
-    public void Nameof_form_returns_the_name()
+    public void A_name_state_is_returned_as_is()
+        => Assert.Equal(("AlignCultureColumnLengths", null), PackagePlanReader.LastState([S("First"), C("To"), S("AlignCultureColumnLengths"), C("To")]));
+
+    [Fact]
+    public void A_last_call_without_its_own_literal_is_unverified()
     {
-        const string plan = """
-            To<First>(nameof(First));
-            To<AlignCultureColumnLengths>(nameof(AlignCultureColumnLengths));
-            """;
-        Assert.Equal("AlignCultureColumnLengths", MigrationPlanReader.LastStep(plan));
-        Assert.Equal("Last", MigrationPlanReader.LastStep("To(nameof(Last));"));
+        var (step, problem) = PackagePlanReader.LastState([S("{a}"), C("To"), C("get_Last"), C("To")]);
+        Assert.Null(step);
+        Assert.Contains("does not take a string literal", problem);
     }
 
     [Fact]
-    public void Plain_string_form_is_returned()
-        => Assert.Equal("my-state", MigrationPlanReader.LastStep("From(\"\");\nTo(\"a\");\nTo<X>(\"my-state\");"));
+    public void A_plan_without_To_calls_gives_a_reason()
+        => Assert.Equal((null, "no To(...) step found in the plan"), PackagePlanReader.LastState([S("x"), C("From")]));
 
     [Fact]
-    public void Text_without_a_To_call_gives_null()
-        => Assert.Null(MigrationPlanReader.LastStep("var x = list.ToList(); // nothing"));
+    public void Literals_after_the_last_step_do_not_count()
+        => Assert.Equal(("{z}", null), PackagePlanReader.LastState([S("{z}"), C("To"), S("trailing"), C("Log")]));
 
     [Fact]
-    public void Plan_paths_follow_the_major()
+    public void Package_ids_follow_the_product()
     {
-        Assert.EndsWith("UmsMigrationPlan.cs", MigrationPlanReader.PlanPath(Products.Engage, "V13"));
-        Assert.EndsWith("UmsMigrationPlan.cs", MigrationPlanReader.PlanPath(Products.Engage, "V16"));
-        Assert.EndsWith("EngageMigrationPlan.cs", MigrationPlanReader.PlanPath(Products.Engage, "V17"));
-        Assert.EndsWith("EngageMigrationPlan.cs", MigrationPlanReader.PlanPath(Products.Engage, "V18"));
-        Assert.Equal(Path.Combine("r", "Umbraco.Engage.Forms", "Umbraco.Engage.Forms.V17"), MigrationPlanReader.RepoFolder("r", Products.Forms, "V17"));
+        Assert.Equal("umbraco.engage.web", PackagePlanReader.PackageId(Products.Engage));
+        Assert.Equal("umbraco.engage.forms", PackagePlanReader.PackageId(Products.Forms));
+        Assert.Equal("umbraco.engage.commerce", PackagePlanReader.PackageId(Products.Commerce));
     }
 
     [Fact]
-    public void Engage_tags_are_read_at_both_plan_names_with_and_without_the_src_folder()
+    public void A_package_missing_from_the_cache_is_unverified()
     {
-        // Engage tags 13.0.0-13.4.0 have no src/ folder; V17 tags up to 17.1.1 still use UmsMigrationPlan.cs.
-        Assert.Equal(
-            [
-                "src/Umbraco.Engage.Web/Migrations/UmsMigrationPlan.cs",
-                "src/Umbraco.Engage.Web/Migrations/EngageMigrationPlan.cs",
-                "Umbraco.Engage.Web/Migrations/UmsMigrationPlan.cs",
-                "Umbraco.Engage.Web/Migrations/EngageMigrationPlan.cs",
-            ],
-            MigrationPlanReader.CandidatePaths(Products.Engage, "V13"));
-        Assert.Equal("src/Umbraco.Engage.Web/Migrations/EngageMigrationPlan.cs", MigrationPlanReader.CandidatePaths(Products.Engage, "V18")[0]);
-        Assert.Equal(["Umbraco.Engage.Forms/Migrations/UmbracoFormsMigrationPlan.cs"], MigrationPlanReader.CandidatePaths(Products.Forms, "V13"));
+        var release = new Release(Products.Engage, "99.0.0", "V99");
+        var (step, problem) = PackagePlanReader.LastStep(Path.Combine(Path.GetTempPath(), "hc-no-nuget-" + Guid.NewGuid().ToString("N")), release);
+        Assert.Null(step);
+        Assert.Contains("is not in", problem);
     }
 
     [Fact]
     public void Compare_reports_match_mismatch_and_unverified()
     {
-        const string plan = "To<X>(\"{aaa}\");";
-        Assert.Equal(CheckStatus.Match, LastStepCheck.Compare("{AAA}", plan, null).Status);
-        Assert.Equal(CheckStatus.Mismatch, LastStepCheck.Compare("{bbb}", plan, null).Status);
-        Assert.Equal(CheckStatus.Mismatch, LastStepCheck.Compare(null, plan, null).Status);
-        Assert.Equal(CheckStatus.Unverified, LastStepCheck.Compare("{aaa}", null, "tag missing").Status);
-        Assert.Equal(CheckStatus.Unverified, LastStepCheck.Compare("{aaa}", "nothing here", null).Status);
+        Assert.Equal(CheckStatus.Match, LastStepCheck.Compare("{AAA}", "{aaa}", null).Status);
+        Assert.Equal(CheckStatus.Mismatch, LastStepCheck.Compare("{bbb}", "{aaa}", null).Status);
+        Assert.Equal(CheckStatus.Mismatch, LastStepCheck.Compare(null, "{aaa}", null).Status);
+        Assert.Equal(CheckStatus.Unverified, LastStepCheck.Compare("{aaa}", null, "package missing").Status);
+    }
+
+    /// <summary>
+    /// Every shipped manifest's recorded last step equals the last step read from that release's public NuGet package.
+    /// Releases whose package is not in the local cache are listed, not failed: the cache fills as the hosts are built.
+    /// </summary>
+    [Fact]
+    public void Every_shipped_manifest_matches_its_package_plan()
+    {
+        var root = AppContext.BaseDirectory;
+        while (!File.Exists(Path.Combine(root, "catalog", "releases.json"))) root = Path.GetDirectoryName(root)!;
+        var catalog = ReleaseCatalog.Load(Path.Combine(root, "catalog", "releases.json"));
+        var store = new ManifestStore(Path.Combine(root, "manifests"), includeEmbedded: false);
+        var nuget = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages");
+
+        var mismatches = new List<string>();
+        var checkedCount = 0;
+        foreach (var product in new[] { Products.Engage, Products.Forms, Products.Commerce })
+        {
+            foreach (var manifest in store.All(product))
+            {
+                var release = catalog.Find(product, manifest.Version);
+                Assert.NotNull(release);
+                var (step, problem) = PackagePlanReader.LastStep(nuget, release);
+                if (problem is not null && problem.Contains("is not in", StringComparison.Ordinal)) continue;
+                checkedCount++;
+                if (LastStepCheck.Compare(manifest.LastMigrationStep, step, problem).Status != CheckStatus.Match)
+                    mismatches.Add($"{product} {manifest.Version} {manifest.Variant}: manifest {manifest.LastMigrationStep}, package {step ?? problem}");
+            }
+        }
+        Assert.Empty(mismatches);
+        Assert.True(checkedCount > 0 || !Directory.Exists(Path.Combine(nuget, "umbraco.engage.web")));
     }
 }
 

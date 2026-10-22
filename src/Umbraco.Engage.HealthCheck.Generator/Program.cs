@@ -19,17 +19,22 @@ var output = new Option<string>("--out") { DefaultValueFactory = _ => "manifests
 var variant = new Option<string>("--variant")
 {
     DefaultValueFactory = _ => Variants.Fresh,
-    Description = "fresh: a clean install. aligned: install the catalog's alignFrom release (or --from), upgrade to the release, snapshot with status Aligned. complete: like aligned, then EnsureDataConsistency.sql and CompleteAlignSchema.sql from the release tag, snapshot with status Complete.",
+    Description = "fresh: a clean install. aligned: install the catalog's alignFrom release (or --from), upgrade to the release, snapshot with status Aligned. complete: like aligned, then EnsureDataConsistency.sql and CompleteAlignSchema.sql from --align-scripts, snapshot with status Complete.",
 };
 variant.AcceptOnlyFromAmong(Variants.Fresh, Variants.Aligned, Variants.Complete);
 var from = new Option<string?>("--from") { Description = "The older Engage release to install first. Default for --variant aligned or complete: the catalog's alignFrom." };
 var catalogPath = new Option<string>("--catalog") { DefaultValueFactory = _ => "catalog/releases.json", Description = "The release catalog. Host paths in it resolve against the folder above the catalog folder." };
-var repos = new Option<string?>("--repos") { Description = "Folder with the Engage, Forms and Commerce source repos, read at release tags (read-only). Default: the ENGAGE_REPOS environment variable." };
-var verifyAligned = new Option<bool>("--verify") { Description = "With --variant aligned: after the snapshot, run the release's CompleteAlignSchema.sql on the same database and compare with the fresh manifest." };
+var alignScripts = new Option<string?>("--align-scripts") { Description = "Folder with CompleteAlignSchema.sql and EnsureDataConsistency.sql, downloaded from the Engage schema alignment guide on docs.umbraco.com. A V13, V16, V17 or V18 subfolder is used first when it exists. Default: the ENGAGE_ALIGN_SCRIPTS environment variable." };
+var verifyAligned = new Option<bool>("--verify") { Description = "With --variant aligned: after the snapshot, run CompleteAlignSchema.sql from --align-scripts on the same database and compare with the fresh manifest." };
+var nugetRoot = new Option<string>("--nuget")
+{
+    DefaultValueFactory = _ => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages"),
+    Description = "The NuGet package cache (read-only): the Engage packages for the last-step check, umbraco.cms.infrastructure for cms-states.",
+};
 
 var generate = new Command("generate", "Install one Engage version (and optional add-ons) and write its manifest(s): a clean install, or with --variant aligned an upgrade from an older release.")
 {
-    engageVersion, umbracoVersion, host, forms, umbracoForms, commerce, umbracoCommerce, output, variant, from, catalogPath, repos, verifyAligned,
+    engageVersion, umbracoVersion, host, forms, umbracoForms, commerce, umbracoCommerce, output, variant, from, catalogPath, alignScripts, verifyAligned,
 };
 
 generate.SetAction(async (parse, ct) =>
@@ -47,11 +52,12 @@ generate.SetAction(async (parse, ct) =>
         var fromVersion = Trimmed(parse.GetValue(from)) ?? release.AlignFrom;
         if (fromVersion is null) return UsageError($"{release} has no alignFrom in the catalog; give --from.");
 
-        if (ReposRoot(parse.GetValue(repos)) is not { } reposFolder) return 3;
+        string? scriptsFolder = null;
+        if ((completeVariant || parse.GetValue(verifyAligned)) && (scriptsFolder = ScriptsFolder(parse.GetValue(alignScripts))) is null) return 3;
         var verdicts = new List<(string Version, AssumptionVerdict Verdict)>();
-        var hook = parse.GetValue(verifyAligned) ? VerifyHook(release, catalog, reposFolder, parse.GetValue(output)!, KnownVariants.LoadNextTo(parse.GetValue(catalogPath)!), verdicts) : null;
+        var hook = parse.GetValue(verifyAligned) ? VerifyHook(release, scriptsFolder!, parse.GetValue(output)!, KnownVariants.LoadNextTo(parse.GetValue(catalogPath)!), verdicts) : null;
         var manifests = await ManifestGenerator.GenerateAsync(catalog.StagesFrom(fromVersion, release, root), fromVersion, variantName, hook, ct,
-            completeAlignment: completeVariant ? CompleteAlignment(release, catalog, reposFolder) : null);
+            completeAlignment: completeVariant ? CompleteAlignment(release, scriptsFolder!) : null);
         foreach (var manifest in manifests) await WriteAndPrint(manifest, parse.GetValue(output)!, ct);
         return verdicts.Any(v => v.Verdict.ExitCode == AssumptionVerdict.ExitFail) ? AssumptionVerdict.ExitFail : verdicts.Any(v => v.Verdict.IsKnownVariant) ? AssumptionVerdict.ExitKnownVariant : 0;
     }
@@ -79,9 +85,9 @@ generate.SetAction(async (parse, ct) =>
 var product = new Option<string?>("--product") { Description = "Only this product: Engage, Engage.Forms or Engage.Commerce." };
 var major = new Option<string?>("--major") { Description = "Only this major: V13, V16, V17 or V18." };
 var force = new Option<bool>("--force") { Description = "Generate again even when the manifest exists." };
-var generateAll = new Command("generate-all", "Generate every catalog release that has no manifest yet, one at a time, and check each against its release tag.")
+var generateAll = new Command("generate-all", "Generate every catalog release that has no manifest yet, one at a time, and check each manifest's last step against the plan in the release's NuGet package.")
 {
-    catalogPath, product, major, output, force, repos, variant, verifyAligned,
+    catalogPath, product, major, output, force, nugetRoot, alignScripts, variant, verifyAligned,
 };
 
 generateAll.SetAction(async (parse, ct) =>
@@ -89,11 +95,13 @@ generateAll.SetAction(async (parse, ct) =>
     if (LoadCatalog(parse.GetValue(catalogPath)!) is not ({ } catalog, { } root)) return 2;
     var releases = catalog.Select(parse.GetValue(product), parse.GetValue(major));
     if (releases.Count == 0) return UsageError("No catalog releases match --product/--major.");
-    if (ReposRoot(parse.GetValue(repos)) is not { } reposRoot) return 3;
     var outFolder = parse.GetValue(output)!;
     var variantName = parse.GetValue(variant)!;
     var verify = parse.GetValue(verifyAligned);
     if (verify && !Variants.IsAligned(variantName)) return UsageError("--verify needs --variant aligned.");
+    string? scriptsFolder = null;
+    if ((verify || Variants.IsComplete(variantName)) && (scriptsFolder = ScriptsFolder(parse.GetValue(alignScripts))) is null) return 3;
+    var nuget = parse.GetValue(nugetRoot)!;
     var known = KnownVariants.LoadNextTo(parse.GetValue(catalogPath)!);
 
     var verdicts = new List<(string Version, AssumptionVerdict Verdict)>();
@@ -103,11 +111,11 @@ generateAll.SetAction(async (parse, ct) =>
         {
             var release = catalog.Find(Products.Engage, stages[^1].EngageVersion);
             var engageOnly = release is not null && stages[^1].FormsVersion is null && stages[^1].CommerceVersion is null;
-            var hook = verify && engageOnly ? VerifyHook(release!, catalog, reposRoot, outFolder, known, verdicts) : null;
-            var complete = Variants.IsComplete(variantName) && engageOnly ? CompleteAlignment(release!, catalog, reposRoot) : null;
+            var hook = verify && engageOnly ? VerifyHook(release!, scriptsFolder!, outFolder, known, verdicts) : null;
+            var complete = Variants.IsComplete(variantName) && engageOnly ? CompleteAlignment(release!, scriptsFolder!) : null;
             return ManifestGenerator.GenerateAsync(stages, installedFrom, variantName, hook, token, completeAlignment: complete);
         },
-        (m, r) => LastStepCheck.Check(m, r, reposRoot), Console.Out, ct, variantName);
+        (m, r) => LastStepCheck.Check(m, r, nuget), Console.Out, ct, variantName);
     Console.WriteLine(GenerateAllRunner.Summary(results));
     if (verify)
     {
@@ -128,7 +136,7 @@ mode.AcceptOnlyFromAmong("aligned", "upgrade");
 var manifestsFolder = new Option<string>("--manifests") { DefaultValueFactory = _ => "manifests", Description = "Folder with the fresh, aligned and complete manifests to compare with." };
 var verifyCommand = new Command("verify", "Check the 'completed = fresh' (aligned mode) or 'upgraded = fresh' (upgrade mode) assumption for one release on a real database.")
 {
-    version, from, mode, catalogPath, repos, manifestsFolder,
+    version, from, mode, catalogPath, alignScripts, manifestsFolder,
 };
 
 verifyCommand.SetAction(async (parse, ct) =>
@@ -154,10 +162,10 @@ verifyCommand.SetAction(async (parse, ct) =>
         return verdict.ExitCode;
     }
 
-    if (ReposRoot(parse.GetValue(repos)) is not { } reposFolder) return 3;
+    if (ScriptsFolder(parse.GetValue(alignScripts)) is not { } scriptsFolder) return 3;
     var verdicts = new List<(string Version, AssumptionVerdict Verdict)>();
     var aligned = (await ManifestGenerator.GenerateAsync(stages, fromVersion, Variants.Aligned,
-        VerifyHook(release, catalog, reposFolder,parse.GetValue(manifestsFolder)!, known, verdicts), ct, databaseName: "verify")).Single();
+        VerifyHook(release, scriptsFolder, parse.GetValue(manifestsFolder)!, known, verdicts), ct, databaseName: "verify")).Single();
     if (store.Find(Products.Engage, release.Version, Variants.Aligned) is { } stored)
     {
         var same = SchemaComparer.Compare(stored.Schema, aligned.Schema).Count == 0
@@ -168,11 +176,6 @@ verifyCommand.SetAction(async (parse, ct) =>
     return verdicts.Count == 1 ? verdicts[0].Verdict.ExitCode : AssumptionVerdict.ExitFail;
 });
 
-var nugetRoot = new Option<string>("--nuget")
-{
-    DefaultValueFactory = _ => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages"),
-    Description = "The NuGet package cache with umbraco.cms.infrastructure for every host CMS version (read-only).",
-};
 var statesOut = new Option<string>("--out") { DefaultValueFactory = _ => "src/Umbraco.Engage.HealthCheck.Core/Data/cms-states.json" };
 var cmsStatesCommand = new Command("cms-states", "Extract the CMS upgrade states of every catalog host's CMS version into the embedded cms-states.json.")
 {
@@ -202,12 +205,18 @@ return await new RootCommand("Engage health check manifest generator (maintainer
 
 static string? Trimmed(string? value) => string.IsNullOrWhiteSpace(value) ? null : value.Trim();
 
-// The source repos folder: --repos, else ENGAGE_REPOS. Only the commands that read release tags ask for it.
-static string? ReposRoot(string? option)
+// The alignment scripts folder: --align-scripts, else ENGAGE_ALIGN_SCRIPTS. Only the commands that run the scripts ask for it.
+static string? ScriptsFolder(string? option)
 {
-    var folder = Trimmed(option) ?? Trimmed(Environment.GetEnvironmentVariable("ENGAGE_REPOS"));
-    if (folder is null) Console.Error.WriteLine("This command reads the Engage, Forms and Commerce source repos at release tags. Give --repos <folder> or set ENGAGE_REPOS.");
-    return folder;
+    var folder = Trimmed(option) ?? Trimmed(Environment.GetEnvironmentVariable(AlignScripts.FolderVariable));
+    if (folder is null)
+    {
+        Console.Error.WriteLine($"This command runs CompleteAlignSchema.sql. Download it from the Engage schema alignment guide on docs.umbraco.com, then give --align-scripts <folder> or set {AlignScripts.FolderVariable}.");
+        return null;
+    }
+    if (Directory.Exists(folder)) return folder;
+    Console.Error.WriteLine($"The alignment scripts folder does not exist: {folder}");
+    return null;
 }
 
 static int UsageError(string message)
@@ -236,14 +245,14 @@ static async Task WriteAndPrint(Manifest manifest, string outFolder, Cancellatio
     Console.WriteLine($"Wrote {path}: {manifest.Schema.Tables.Count} tables, last step {manifest.LastMigrationStep}, status {manifest.SchemaStatus ?? "(none)"}");
 }
 
-// The complete variant's step between the aligned installs and the snapshot: the release's own scripts, single-database mode.
-static Func<string, CancellationToken, Task> CompleteAlignment(Release release, ReleaseCatalog catalog, string reposRoot)
-    => (cs, ct) => Verifier.RunAlignScriptsAsync(cs, release, catalog, reposRoot, Console.Out, ct, ownTagOnly: true);
+// The complete variant's step between the aligned installs and the snapshot: the major's published scripts, single-database mode.
+static Func<string, CancellationToken, Task> CompleteAlignment(Release release, string scriptsFolder)
+    => (cs, ct) => Verifier.RunAlignScriptsAsync(cs, release, scriptsFolder, Console.Out, ct);
 
 // Runs CompleteAlignSchema.sql on the snapshotted aligned database and judges the "complete = fresh" assumption against the
 // fresh manifest (a recorded known variant is reported as such), and whether the stored complete manifest reproduces.
 // It never throws: a verify problem is a failed verdict, not a lost manifest.
-static Func<string, CancellationToken, Task> VerifyHook(Release release, ReleaseCatalog catalog, string reposRoot, string manifestsFolder, KnownVariantsFile known, List<(string Version, AssumptionVerdict Verdict)> verdicts)
+static Func<string, CancellationToken, Task> VerifyHook(Release release, string scriptsFolder, string manifestsFolder, KnownVariantsFile known, List<(string Version, AssumptionVerdict Verdict)> verdicts)
     => async (cs, ct) =>
     {
         AssumptionVerdict verdict;
@@ -253,7 +262,7 @@ static Func<string, CancellationToken, Task> VerifyHook(Release release, Release
             var fresh = store.Find(Products.Engage, release.Version, Variants.Fresh);
             verdict = fresh is null
                 ? new AssumptionVerdict(new VerifyOutcome(false, $"no fresh manifest for {release.Version} in {manifestsFolder}", [], null, false), null, null)
-                : await Verifier.CompleteAndJudgeAsync(cs, release, catalog, reposRoot, fresh, store.Find(Products.Engage, release.Version, Variants.Complete),
+                : await Verifier.CompleteAndJudgeAsync(cs, release, scriptsFolder, fresh, store.Find(Products.Engage, release.Version, Variants.Complete),
                     KnownVariants.Find(known, Products.Engage, release.Version, KnownVariants.CompleteEqualsFresh), Console.Out, ct);
         }
         catch (Exception ex) when (ex is not OperationCanceledException)

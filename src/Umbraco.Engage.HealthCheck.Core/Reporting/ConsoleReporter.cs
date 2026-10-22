@@ -67,7 +67,7 @@ public static partial class ConsoleReporter
             else if (major >= 18 || identical.Any(m => m >= 18)) output.WriteLine("  On Engage 18.1.0 or later: Engage is disabled until CompleteAlignSchema.sql is run");
         }
         if (d.Notice is not null) style.WriteLine(output, $"  {d.Notice}", ConsolePalette.Blocked);
-        // An exact match already names the record in its own line; a closest match must not hide a disagreeing record (issue #99).
+        // An exact match already names the record in its own line; a closest match must not hide a disagreeing record (https://github.com/umbraco/Umbraco.Engage.Issues/issues/99).
         if (!d.Exact && d.Versions is not null && d.Basis == DetectionBasis.RecordAndSchema && !d.RecordMatchesSchema)
             style.WriteLine(output, $"Upgrade record says {name} {d.RecordedVersions}", ConsolePalette.Attention);
         // Identical alternatives are already named in the headline.

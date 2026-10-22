@@ -66,7 +66,7 @@ public class AlignedCatalogTests
         var real = ReleaseCatalog.Load(Path.Combine(root, "catalog", "releases.json"));
         var aligned = real.Select(Products.Engage).Where(r => r.AlignFrom is not null).ToList();
 
-        // 16.2.0 has no AlignSchema step (no DatabaseSchemaStatus at its tag); 18.0.0 refuses an Aligned database.
+        // An upgrade to 16.2.0 records no DatabaseSchemaStatus; 18.0.0 refuses an Aligned database.
         Assert.Equal(17, aligned.Count);
         Assert.Equal(
             ["13.8.0", "13.8.1", "16.3.0", "16.3.1", "16.3.2", "16.3.3", "17.2.0", "17.2.1", "17.2.2", "17.2.3", "17.2.4", "17.3.0", "17.3.1", "17.4.0", "17.5.0", "18.1.0", "18.2.0"],
@@ -126,34 +126,24 @@ public class AlignScriptTests
         Assert.NotNull(AlignScripts.SingleDatabaseProblem("CREATE TABLE ##EngageAlignConfig ([separateDatabaseMode] BIT NOT NULL);\nINSERT INTO ##EngageAlignConfig VALUES (1);"));
     }
 
-    private static readonly ReleaseCatalog Catalog = ReleaseCatalog.Parse("""
-        { "hosts": { "V16": { "project": "hosts/Host.V16", "umbraco": "16.5.1" } },
-          "releases": [
-            { "product": "Engage", "version": "16.1.2", "major": "V16" },
-            { "product": "Engage", "version": "16.2.0", "major": "V16", "alignFrom": "16.1.2" },
-            { "product": "Engage", "version": "16.3.0", "major": "V16", "alignFrom": "16.1.2" },
-            { "product": "Engage", "version": "16.3.1", "major": "V16", "alignFrom": "16.1.2" } ] }
-        """);
-
     [Fact]
-    public void The_release_own_script_is_used_when_its_tag_has_one()
+    public void A_script_in_the_major_subfolder_wins_over_one_in_the_folder_itself()
     {
-        var (tag, note) = AlignScripts.ScriptTagFor(Catalog.Find(Products.Engage, "16.3.1")!, Catalog, _ => true);
-        Assert.Equal("release-16.3.1", tag);
-        Assert.Null(note);
+        var folder = Path.Combine(Path.GetTempPath(), "hc-scripts-" + Guid.NewGuid().ToString("N"));
+        try
+        {
+            Directory.CreateDirectory(Path.Combine(folder, "V17"));
+            File.WriteAllText(Path.Combine(folder, AlignScripts.CompleteAlignSchema), "flat");
+            File.WriteAllText(Path.Combine(folder, "V17", AlignScripts.CompleteAlignSchema), "v17");
+            Assert.Equal(Path.Combine(folder, "V17", AlignScripts.CompleteAlignSchema), AlignScripts.Find(folder, "V17", AlignScripts.CompleteAlignSchema));
+            Assert.Equal(Path.Combine(folder, AlignScripts.CompleteAlignSchema), AlignScripts.Find(folder, "V13", AlignScripts.CompleteAlignSchema));
+            Assert.Null(AlignScripts.Find(folder, "V17", AlignScripts.EnsureDataConsistency));
+        }
+        finally
+        {
+            Directory.Delete(folder, recursive: true);
+        }
     }
-
-    [Fact]
-    public void A_release_without_a_published_script_uses_the_next_release_that_has_one_and_says_so()
-    {
-        var (tag, note) = AlignScripts.ScriptTagFor(Catalog.Find(Products.Engage, "16.2.0")!, Catalog, t => t != "release-16.2.0");
-        Assert.Equal("release-16.3.0", tag);
-        Assert.Contains("no script published at release-16.2.0", note);
-    }
-
-    [Fact]
-    public void No_script_anywhere_gives_no_tag()
-        => Assert.Null(AlignScripts.ScriptTagFor(Catalog.Find(Products.Engage, "16.2.0")!, Catalog, _ => false).Tag);
 }
 
 public class VerifyComparisonTests

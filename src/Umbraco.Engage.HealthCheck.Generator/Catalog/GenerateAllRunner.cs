@@ -118,7 +118,7 @@ public static class GenerateAllRunner
                       $"unverified {unverified}, last-step mismatches {results.Count(r => r.IsMismatch)}");
         var checkedResults = results.Where(r => r.Check is not null).ToList();
         if (checkedResults.Count > 0 && checkedResults.All(r => r.Check!.Status == CheckStatus.Unverified))
-            sb.AppendLine("WARNING: every result is unverified, so nothing was checked against the release tags. Check --repos.");
+            sb.AppendLine("WARNING: every result is unverified, so nothing was checked against the package plans. Check --nuget.");
         return sb.ToString();
     }
 }

@@ -14,7 +14,7 @@ public sealed record UpgradeBlock(string Product, string BlockedRelease)
 public static class UpgradeBlocks
 {
     /// <summary>
-    /// Engage 18.0.0: its first v18 step, RequireSchemaAlignmentComplete, throws while DatabaseSchemaStatus is
+    /// Engage 18.0.0 refuses to upgrade (see the startup log) while DatabaseSchemaStatus is
     /// "Aligned", so the Engage record stays at the 17.2.0 state. From 18.1.0 the check is a startup check instead.
     /// </summary>
     public static readonly IReadOnlyList<UpgradeBlock> Known = [new(Products.Engage, "18.0.0")];

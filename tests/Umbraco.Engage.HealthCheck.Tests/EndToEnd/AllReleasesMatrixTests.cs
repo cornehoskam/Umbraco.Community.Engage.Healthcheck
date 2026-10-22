@@ -117,18 +117,18 @@ public class AllReleasesMatrixTests(AllReleasesMatrixTests.MatrixFixture fixture
         string detected = "-";
         try
         {
-            string? repos = null;
+            string? scripts = null;
             if (complete)
             {
-                repos = Environment.GetEnvironmentVariable("ENGAGE_REPOS");
-                if (string.IsNullOrWhiteSpace(repos))
-                    throw new InvalidOperationException("The complete case runs CompleteAlignSchema.sql from the Engage repos at the release tag. Set ENGAGE_REPOS to the folder that holds them.");
+                scripts = Environment.GetEnvironmentVariable(AlignScripts.FolderVariable);
+                if (string.IsNullOrWhiteSpace(scripts))
+                    throw new InvalidOperationException($"The complete case runs CompleteAlignSchema.sql. Download it from the Engage schema alignment guide and set {AlignScripts.FolderVariable} to its folder.");
             }
             var scriptLog = new StringWriter();
             string? cmsState = null;
             string console = "";
             // The generator's own aligned staging (alignFrom, then the release). For complete, its Verifier script path runs
-            // EnsureDataConsistency.sql and CompleteAlignSchema.sql from the release tag; the generator checks the status.
+            // the published EnsureDataConsistency.sql and CompleteAlignSchema.sql; the generator checks the status.
             await ManifestGenerator.GenerateAsync(Catalog.AlignedStagesFor(release, Root), release.AlignFrom, variant,
                 async (cs, ct) =>
                 {
@@ -138,7 +138,7 @@ public class AllReleasesMatrixTests(AllReleasesMatrixTests.MatrixFixture fixture
                 },
                 CancellationToken.None,
                 databaseName: $"m_{variant}_{version.Replace('.', '_')}",
-                completeAlignment: complete ? (cs, ct) => Verifier.RunAlignScriptsAsync(cs, release, Catalog, repos!, scriptLog, ct, ownTagOnly: true) : null);
+                completeAlignment: complete ? (cs, ct) => Verifier.RunAlignScriptsAsync(cs, release, scripts!, scriptLog, ct) : null);
             output.WriteLine(scriptLog.ToString());
             output.WriteLine(console);
 
@@ -357,9 +357,9 @@ public class AllReleasesMatrixTests(AllReleasesMatrixTests.MatrixFixture fixture
             var sb = new StringBuilder();
             sb.AppendLine($"# All releases verification, {date}");
             sb.AppendLine();
-            sb.AppendLine("Produced by `AllReleasesMatrixTests` (tests/Umbraco.Engage.HealthCheck.Tests/EndToEnd). For every release in `catalog/releases.json` it provisions a real SQL Server database the way the catalog says: the release's host and CMS version, `installFrom` staging, and add-ons installed next to their `engage` release (Engage first for `engage-first`). It then runs the real health check with no `--expect` and the embedded manifests, and checks the detection, the variant, the upgrade record, the CMS major read from the database and the exit code. The aligned and complete rows use the generator's aligned staging, and for complete the alignment scripts from the release tag.");
+            sb.AppendLine("Produced by `AllReleasesMatrixTests` (tests/Umbraco.Engage.HealthCheck.Tests/EndToEnd). For every release in `catalog/releases.json` it provisions a real SQL Server database the way the catalog says: the release's host and CMS version, `installFrom` staging, and add-ons installed next to their `engage` release (Engage first for `engage-first`). It then runs the real health check with no `--expect` and the embedded manifests, and checks the detection, the variant, the upgrade record, the CMS major read from the database and the exit code. The aligned and complete rows use the generator's aligned staging, and for complete the alignment scripts.");
             sb.AppendLine();
-            sb.AppendLine("Command (the complete rows need `ENGAGE_REPOS`, the folder with the Engage source repos):");
+            sb.AppendLine("Command (the complete rows need `ENGAGE_ALIGN_SCRIPTS`, the folder with the alignment scripts from the Engage schema alignment guide):");
             sb.AppendLine();
             sb.AppendLine("```bash");
             sb.AppendLine(Command);

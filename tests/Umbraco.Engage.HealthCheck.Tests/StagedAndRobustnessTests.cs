@@ -83,29 +83,6 @@ public class StagedCatalogTests
     }
 }
 
-public class LastStepFailsClosedTests
-{
-    [Fact]
-    public void A_verbatim_literal_is_read()
-        => Assert.Equal("{abc}", MigrationPlanReader.LastStep("To<X>(@\"{abc}\");"));
-
-    [Theory]
-    [InlineData("To<A>(\"{a}\");\nTo<B>(StateConstants.Last);")]
-    [InlineData("To<A>(\"{a}\");\nTo<B>(new Guid(\"11111111-1111-1111-1111-111111111111\"));")]
-    [InlineData("To<A>(\"{a}\");\nTo<B>($\"{prefix}x\");")]
-    public void A_last_call_with_another_argument_is_unverified(string plan)
-    {
-        Assert.False(MigrationPlanReader.TryLastStep(plan, out var step, out var problem));
-        Assert.Null(step);
-        Assert.Contains("not a string literal", problem);
-        Assert.Equal(CheckStatus.Unverified, LastStepCheck.Compare("{a}", plan, null).Status);
-    }
-
-    [Fact]
-    public void A_const_earlier_in_the_plan_does_not_matter()
-        => Assert.Equal("{z}", MigrationPlanReader.LastStep("To<B>(Last);\nTo<A>(\"{z}\");"));
-}
-
 public class GenerateAllRobustnessTests : IDisposable
 {
     private readonly string _out = Path.Combine(Path.GetTempPath(), "hc-rob-" + Guid.NewGuid().ToString("N"));

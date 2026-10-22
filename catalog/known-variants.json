@@ -1,5 +1,5 @@
 {
-  "_comment": "Releases whose variant schema is not the fresh one. complete = fresh: checked by the generator verify command; upgraded = fresh: checked by verify --mode upgrade. Sources name the Engage release and file that cause each difference.",
+  "_comment": "Releases whose variant schema is not the fresh one. complete = fresh: checked by the generator verify command; upgraded = fresh: checked by verify --mode upgrade. Every entry is an observation on real databases built from the public NuGet packages and the alignment scripts; sources name the manifests that show it.",
   "entries": [
     {
       "product": "Engage",
@@ -10,11 +10,10 @@
       "installedFrom": "13.7.5",
       "differences": 33,
       "kinds": { "IndexMissing": 29, "ColumnDefaultDifferent": 4 },
-      "reason": "Upgraded from 13.7.5, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 33 differences from the fresh install. AlignSchema drops the 29 IX_<table>_key nonclustered indexes (the tables keep UQ_<table>_key) that a fresh install still creates, and the script does not recreate them. 4 bit defaults keep the older install's ('False') where a fresh install has ((0)).",
+      "reason": "Upgraded from 13.7.5, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 33 differences from the fresh install. 29 IX_<table>_key nonclustered indexes that a fresh install has are absent (the tables keep UQ_<table>_key), and 4 bit defaults read ('False') where a fresh install has ((0)).",
       "sources": [
-        "Engage 13.8.0 AlignSchema (DropIndex of IX_<table>_key)",
-        "Engage 13.8.0 CompleteAlignSchema (no IX_<table>_key, no default changes)",
-        "Engage 13.8.0 CreateInitialTables (fresh install: DEFAULT (0))"
+        "manifests/engage/13.8.0.fresh.json (fresh install of the 13.8.0 package)",
+        "manifests/engage/13.8.0.complete.json (upgrade to 13.8.0, then EnsureDataConsistency.sql and CompleteAlignSchema.sql)"
       ]
     },
     {
@@ -26,11 +25,10 @@
       "installedFrom": "13.7.5",
       "differences": 33,
       "kinds": { "IndexMissing": 29, "ColumnDefaultDifferent": 4 },
-      "reason": "Upgraded from 13.7.5, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 33 differences from the fresh install. AlignSchema drops the 29 IX_<table>_key nonclustered indexes (the tables keep UQ_<table>_key) that a fresh install still creates, and the script does not recreate them. 4 bit defaults keep the older install's ('False') where a fresh install has ((0)).",
+      "reason": "Upgraded from 13.7.5, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 33 differences from the fresh install. 29 IX_<table>_key nonclustered indexes that a fresh install has are absent (the tables keep UQ_<table>_key), and 4 bit defaults read ('False') where a fresh install has ((0)).",
       "sources": [
-        "Engage 13.8.1 AlignSchema (DropIndex of IX_<table>_key)",
-        "Engage 13.8.1 CompleteAlignSchema (no IX_<table>_key, no default changes)",
-        "Engage 13.8.1 CreateInitialTables (fresh install: DEFAULT (0))"
+        "manifests/engage/13.8.1.fresh.json (fresh install of the 13.8.1 package)",
+        "manifests/engage/13.8.1.complete.json (upgrade to 13.8.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql)"
       ]
     },
     {
@@ -42,11 +40,10 @@
       "installedFrom": "16.1.2",
       "differences": 33,
       "kinds": { "IndexMissing": 29, "ColumnDefaultDifferent": 4 },
-      "reason": "Upgraded from 16.1.2, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 33 differences from the fresh install. AlignSchema drops the 29 IX_<table>_key nonclustered indexes (the tables keep UQ_<table>_key) that a fresh install still creates, and the script does not recreate them. 4 bit defaults keep the older install's ('False') where a fresh install has ((0)).",
+      "reason": "Upgraded from 16.1.2, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 33 differences from the fresh install. 29 IX_<table>_key nonclustered indexes that a fresh install has are absent (the tables keep UQ_<table>_key), and 4 bit defaults read ('False') where a fresh install has ((0)).",
       "sources": [
-        "Engage 16.3.0 AlignSchema (DropIndex of IX_<table>_key)",
-        "Engage 16.3.0 CompleteAlignSchema (no IX_<table>_key, no default changes)",
-        "Engage 16.3.0 CreateInitialTables (fresh install: DEFAULT (0))"
+        "manifests/engage/16.3.0.fresh.json (fresh install of the 16.3.0 package)",
+        "manifests/engage/16.3.0.complete.json (upgrade to 16.3.0, then EnsureDataConsistency.sql and CompleteAlignSchema.sql)"
       ]
     },
     {
@@ -58,11 +55,10 @@
       "installedFrom": "16.1.2",
       "differences": 33,
       "kinds": { "IndexMissing": 29, "ColumnDefaultDifferent": 4 },
-      "reason": "Upgraded from 16.1.2, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 33 differences from the fresh install. AlignSchema drops the 29 IX_<table>_key nonclustered indexes (the tables keep UQ_<table>_key) that a fresh install still creates, and the script does not recreate them. 4 bit defaults keep the older install's ('False') where a fresh install has ((0)).",
+      "reason": "Upgraded from 16.1.2, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 33 differences from the fresh install. 29 IX_<table>_key nonclustered indexes that a fresh install has are absent (the tables keep UQ_<table>_key), and 4 bit defaults read ('False') where a fresh install has ((0)).",
       "sources": [
-        "Engage 16.3.1 AlignSchema (DropIndex of IX_<table>_key)",
-        "Engage 16.3.1 CompleteAlignSchema (no IX_<table>_key, no default changes)",
-        "Engage 16.3.1 CreateInitialTables (fresh install: DEFAULT (0))"
+        "manifests/engage/16.3.1.fresh.json (fresh install of the 16.3.1 package)",
+        "manifests/engage/16.3.1.complete.json (upgrade to 16.3.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql)"
       ]
     },
     {
@@ -74,11 +70,10 @@
       "installedFrom": "16.1.2",
       "differences": 33,
       "kinds": { "IndexMissing": 29, "ColumnDefaultDifferent": 4 },
-      "reason": "Upgraded from 16.1.2, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 33 differences from the fresh install. AlignSchema drops the 29 IX_<table>_key nonclustered indexes (the tables keep UQ_<table>_key) that a fresh install still creates, and the script does not recreate them. 4 bit defaults keep the older install's ('False') where a fresh install has ((0)).",
+      "reason": "Upgraded from 16.1.2, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 33 differences from the fresh install. 29 IX_<table>_key nonclustered indexes that a fresh install has are absent (the tables keep UQ_<table>_key), and 4 bit defaults read ('False') where a fresh install has ((0)).",
       "sources": [
-        "Engage 16.3.2 AlignSchema (DropIndex of IX_<table>_key)",
-        "Engage 16.3.2 CompleteAlignSchema (no IX_<table>_key, no default changes)",
-        "Engage 16.3.2 CreateInitialTables (fresh install: DEFAULT (0))"
+        "manifests/engage/16.3.2.fresh.json (fresh install of the 16.3.2 package)",
+        "manifests/engage/16.3.2.complete.json (upgrade to 16.3.2, then EnsureDataConsistency.sql and CompleteAlignSchema.sql)"
       ]
     },
     {
@@ -90,11 +85,10 @@
       "installedFrom": "16.1.2",
       "differences": 33,
       "kinds": { "IndexMissing": 29, "ColumnDefaultDifferent": 4 },
-      "reason": "Upgraded from 16.1.2, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 33 differences from the fresh install. AlignSchema drops the 29 IX_<table>_key nonclustered indexes (the tables keep UQ_<table>_key) that a fresh install still creates, and the script does not recreate them. 4 bit defaults keep the older install's ('False') where a fresh install has ((0)).",
+      "reason": "Upgraded from 16.1.2, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 33 differences from the fresh install. 29 IX_<table>_key nonclustered indexes that a fresh install has are absent (the tables keep UQ_<table>_key), and 4 bit defaults read ('False') where a fresh install has ((0)).",
       "sources": [
-        "Engage 16.3.3 AlignSchema (DropIndex of IX_<table>_key)",
-        "Engage 16.3.3 CompleteAlignSchema (no IX_<table>_key, no default changes)",
-        "Engage 16.3.3 CreateInitialTables (fresh install: DEFAULT (0))"
+        "manifests/engage/16.3.3.fresh.json (fresh install of the 16.3.3 package)",
+        "manifests/engage/16.3.3.complete.json (upgrade to 16.3.3, then EnsureDataConsistency.sql and CompleteAlignSchema.sql)"
       ]
     },
     {
@@ -106,11 +100,10 @@
       "installedFrom": "17.1.1",
       "differences": 32,
       "kinds": { "IndexMissing": 29, "ColumnDefaultDifferent": 3 },
-      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. AlignSchema drops the 29 IX_<table>_key nonclustered indexes (the tables keep UQ_<table>_key) that a fresh install still creates, and the script does not recreate them. 3 bit defaults keep the older install's ('False') where a fresh install has ((0)).",
+      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. 29 IX_<table>_key nonclustered indexes that a fresh install has are absent (the tables keep UQ_<table>_key), and 3 bit defaults read ('False') where a fresh install has ((0)).",
       "sources": [
-        "Engage 17.2.0 AlignSchema (DropIndex of IX_<table>_key)",
-        "Engage 17.2.0 CompleteAlignSchema (no IX_<table>_key, no default changes)",
-        "Engage 17.2.0 CreateInitialTables (fresh install: DEFAULT (0))"
+        "manifests/engage/17.2.0.fresh.json (fresh install of the 17.2.0 package)",
+        "manifests/engage/17.2.0.complete.json (upgrade to 17.2.0, then EnsureDataConsistency.sql and CompleteAlignSchema.sql)"
       ]
     },
     {
@@ -122,11 +115,10 @@
       "installedFrom": "17.1.1",
       "differences": 32,
       "kinds": { "IndexMissing": 29, "ColumnDefaultDifferent": 3 },
-      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. AlignSchema drops the 29 IX_<table>_key nonclustered indexes (the tables keep UQ_<table>_key) that a fresh install still creates, and the script does not recreate them. 3 bit defaults keep the older install's ('False') where a fresh install has ((0)).",
+      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. 29 IX_<table>_key nonclustered indexes that a fresh install has are absent (the tables keep UQ_<table>_key), and 3 bit defaults read ('False') where a fresh install has ((0)).",
       "sources": [
-        "Engage 17.2.1 AlignSchema (DropIndex of IX_<table>_key)",
-        "Engage 17.2.1 CompleteAlignSchema (no IX_<table>_key, no default changes)",
-        "Engage 17.2.1 CreateInitialTables (fresh install: DEFAULT (0))"
+        "manifests/engage/17.2.1.fresh.json (fresh install of the 17.2.1 package)",
+        "manifests/engage/17.2.1.complete.json (upgrade to 17.2.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql)"
       ]
     },
     {
@@ -138,11 +130,10 @@
       "installedFrom": "17.1.1",
       "differences": 32,
       "kinds": { "IndexMissing": 29, "ColumnDefaultDifferent": 3 },
-      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. AlignSchema drops the 29 IX_<table>_key nonclustered indexes (the tables keep UQ_<table>_key) that a fresh install still creates, and the script does not recreate them. 3 bit defaults keep the older install's ('False') where a fresh install has ((0)).",
+      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. 29 IX_<table>_key nonclustered indexes that a fresh install has are absent (the tables keep UQ_<table>_key), and 3 bit defaults read ('False') where a fresh install has ((0)).",
       "sources": [
-        "Engage 17.2.2 AlignSchema (DropIndex of IX_<table>_key)",
-        "Engage 17.2.2 CompleteAlignSchema (no IX_<table>_key, no default changes)",
-        "Engage 17.2.2 CreateInitialTables (fresh install: DEFAULT (0))"
+        "manifests/engage/17.2.2.fresh.json (fresh install of the 17.2.2 package)",
+        "manifests/engage/17.2.2.complete.json (upgrade to 17.2.2, then EnsureDataConsistency.sql and CompleteAlignSchema.sql)"
       ]
     },
     {
@@ -154,11 +145,10 @@
       "installedFrom": "17.1.1",
       "differences": 32,
       "kinds": { "IndexMissing": 29, "ColumnDefaultDifferent": 3 },
-      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. AlignSchema drops the 29 IX_<table>_key nonclustered indexes (the tables keep UQ_<table>_key) that a fresh install still creates, and the script does not recreate them. 3 bit defaults keep the older install's ('False') where a fresh install has ((0)).",
+      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. 29 IX_<table>_key nonclustered indexes that a fresh install has are absent (the tables keep UQ_<table>_key), and 3 bit defaults read ('False') where a fresh install has ((0)).",
       "sources": [
-        "Engage 17.2.3 AlignSchema (DropIndex of IX_<table>_key)",
-        "Engage 17.2.3 CompleteAlignSchema (no IX_<table>_key, no default changes)",
-        "Engage 17.2.3 CreateInitialTables (fresh install: DEFAULT (0))"
+        "manifests/engage/17.2.3.fresh.json (fresh install of the 17.2.3 package)",
+        "manifests/engage/17.2.3.complete.json (upgrade to 17.2.3, then EnsureDataConsistency.sql and CompleteAlignSchema.sql)"
       ]
     },
     {
@@ -170,11 +160,10 @@
       "installedFrom": "17.1.1",
       "differences": 32,
       "kinds": { "IndexMissing": 29, "ColumnDefaultDifferent": 3 },
-      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. AlignSchema drops the 29 IX_<table>_key nonclustered indexes (the tables keep UQ_<table>_key) that a fresh install still creates, and the script does not recreate them. 3 bit defaults keep the older install's ('False') where a fresh install has ((0)).",
+      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. 29 IX_<table>_key nonclustered indexes that a fresh install has are absent (the tables keep UQ_<table>_key), and 3 bit defaults read ('False') where a fresh install has ((0)).",
       "sources": [
-        "Engage 17.2.4 AlignSchema (DropIndex of IX_<table>_key)",
-        "Engage 17.2.4 CompleteAlignSchema (no IX_<table>_key, no default changes)",
-        "Engage 17.2.4 CreateInitialTables (fresh install: DEFAULT (0))"
+        "manifests/engage/17.2.4.fresh.json (fresh install of the 17.2.4 package)",
+        "manifests/engage/17.2.4.complete.json (upgrade to 17.2.4, then EnsureDataConsistency.sql and CompleteAlignSchema.sql)"
       ]
     },
     {
@@ -186,11 +175,10 @@
       "installedFrom": "17.1.1",
       "differences": 32,
       "kinds": { "IndexMissing": 29, "ColumnDefaultDifferent": 3 },
-      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. AlignSchema drops the 29 IX_<table>_key nonclustered indexes (the tables keep UQ_<table>_key) that a fresh install still creates, and the script does not recreate them. 3 bit defaults keep the older install's ('False') where a fresh install has ((0)).",
+      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. 29 IX_<table>_key nonclustered indexes that a fresh install has are absent (the tables keep UQ_<table>_key), and 3 bit defaults read ('False') where a fresh install has ((0)).",
       "sources": [
-        "Engage 17.3.0 AlignSchema (DropIndex of IX_<table>_key)",
-        "Engage 17.3.0 CompleteAlignSchema (no IX_<table>_key, no default changes)",
-        "Engage 17.3.0 CreateInitialTables (fresh install: DEFAULT (0))"
+        "manifests/engage/17.3.0.fresh.json (fresh install of the 17.3.0 package)",
+        "manifests/engage/17.3.0.complete.json (upgrade to 17.3.0, then EnsureDataConsistency.sql and CompleteAlignSchema.sql)"
       ]
     },
     {
@@ -202,11 +190,10 @@
       "installedFrom": "17.1.1",
       "differences": 32,
       "kinds": { "IndexMissing": 29, "ColumnDefaultDifferent": 3 },
-      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. AlignSchema drops the 29 IX_<table>_key nonclustered indexes (the tables keep UQ_<table>_key) that a fresh install still creates, and the script does not recreate them. 3 bit defaults keep the older install's ('False') where a fresh install has ((0)).",
+      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. 29 IX_<table>_key nonclustered indexes that a fresh install has are absent (the tables keep UQ_<table>_key), and 3 bit defaults read ('False') where a fresh install has ((0)).",
       "sources": [
-        "Engage 17.3.1 AlignSchema (DropIndex of IX_<table>_key)",
-        "Engage 17.3.1 CompleteAlignSchema (no IX_<table>_key, no default changes)",
-        "Engage 17.3.1 CreateInitialTables (fresh install: DEFAULT (0))"
+        "manifests/engage/17.3.1.fresh.json (fresh install of the 17.3.1 package)",
+        "manifests/engage/17.3.1.complete.json (upgrade to 17.3.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql)"
       ]
     },
     {
@@ -218,11 +205,10 @@
       "installedFrom": "17.1.1",
       "differences": 32,
       "kinds": { "IndexMissing": 29, "ColumnDefaultDifferent": 3 },
-      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. AlignSchema drops the 29 IX_<table>_key nonclustered indexes (the tables keep UQ_<table>_key) that a fresh install still creates, and the script does not recreate them. 3 bit defaults keep the older install's ('False') where a fresh install has ((0)).",
+      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. 29 IX_<table>_key nonclustered indexes that a fresh install has are absent (the tables keep UQ_<table>_key), and 3 bit defaults read ('False') where a fresh install has ((0)).",
       "sources": [
-        "Engage 17.4.0 AlignSchema (DropIndex of IX_<table>_key)",
-        "Engage 17.4.0 CompleteAlignSchema (no IX_<table>_key, no default changes)",
-        "Engage 17.4.0 CreateInitialTables (fresh install: DEFAULT (0))"
+        "manifests/engage/17.4.0.fresh.json (fresh install of the 17.4.0 package)",
+        "manifests/engage/17.4.0.complete.json (upgrade to 17.4.0, then EnsureDataConsistency.sql and CompleteAlignSchema.sql)"
       ]
     },
     {
@@ -234,11 +220,10 @@
       "installedFrom": "17.1.1",
       "differences": 32,
       "kinds": { "IndexMissing": 29, "ColumnDefaultDifferent": 3 },
-      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. AlignSchema drops the 29 IX_<table>_key nonclustered indexes (the tables keep UQ_<table>_key) that a fresh install still creates, and the script does not recreate them. 3 bit defaults keep the older install's ('False') where a fresh install has ((0)).",
+      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. 29 IX_<table>_key nonclustered indexes that a fresh install has are absent (the tables keep UQ_<table>_key), and 3 bit defaults read ('False') where a fresh install has ((0)).",
       "sources": [
-        "Engage 17.5.0 AlignSchema (DropIndex of IX_<table>_key)",
-        "Engage 17.5.0 CompleteAlignSchema (no IX_<table>_key, no default changes)",
-        "Engage 17.5.0 CreateInitialTables (fresh install: DEFAULT (0))"
+        "manifests/engage/17.5.0.fresh.json (fresh install of the 17.5.0 package)",
+        "manifests/engage/17.5.0.complete.json (upgrade to 17.5.0, then EnsureDataConsistency.sql and CompleteAlignSchema.sql)"
       ]
     },
     {
@@ -250,11 +235,10 @@
       "installedFrom": "17.1.1",
       "differences": 32,
       "kinds": { "IndexMissing": 29, "ColumnDefaultDifferent": 3 },
-      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. AlignSchema drops the 29 IX_<table>_key nonclustered indexes (the tables keep UQ_<table>_key) that a fresh install still creates, and the script does not recreate them. 3 bit defaults keep the older install's ('False') where a fresh install has ((0)).",
+      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. 29 IX_<table>_key nonclustered indexes that a fresh install has are absent (the tables keep UQ_<table>_key), and 3 bit defaults read ('False') where a fresh install has ((0)).",
       "sources": [
-        "Engage 18.1.0 AlignSchema (DropIndex of IX_<table>_key)",
-        "Engage 18.1.0 CompleteAlignSchema (no IX_<table>_key, no default changes)",
-        "Engage 18.1.0 CreateInitialTables (fresh install: DEFAULT (0))"
+        "manifests/engage/18.1.0.fresh.json (fresh install of the 18.1.0 package)",
+        "manifests/engage/18.1.0.complete.json (upgrade to 18.1.0, then EnsureDataConsistency.sql and CompleteAlignSchema.sql)"
       ]
     },
     {
@@ -266,11 +250,10 @@
       "installedFrom": "17.1.1",
       "differences": 32,
       "kinds": { "IndexMissing": 29, "ColumnDefaultDifferent": 3 },
-      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. AlignSchema drops the 29 IX_<table>_key nonclustered indexes (the tables keep UQ_<table>_key) that a fresh install still creates, and the script does not recreate them. 3 bit defaults keep the older install's ('False') where a fresh install has ((0)).",
+      "reason": "Upgraded from 17.1.1, then EnsureDataConsistency.sql and CompleteAlignSchema.sql: status Complete, but 32 differences from the fresh install. 29 IX_<table>_key nonclustered indexes that a fresh install has are absent (the tables keep UQ_<table>_key), and 3 bit defaults read ('False') where a fresh install has ((0)).",
       "sources": [
-        "Engage 18.2.0 AlignSchema (DropIndex of IX_<table>_key)",
-        "Engage 18.2.0 CompleteAlignSchema (no IX_<table>_key, no default changes)",
-        "Engage 18.2.0 CreateInitialTables (fresh install: DEFAULT (0))"
+        "manifests/engage/18.2.0.fresh.json (fresh install of the 18.2.0 package)",
+        "manifests/engage/18.2.0.complete.json (upgrade to 18.2.0, then EnsureDataConsistency.sql and CompleteAlignSchema.sql)"
       ]
     },
     {
@@ -282,10 +265,10 @@
       "installedFrom": "17.2.2 or older",
       "differences": 1,
       "kinds": { "ColumnNullabilityDifferent": 1 },
-      "reason": "A fresh 17.2.3/17.2.4 creates umbracoEngageAnalyticsUmbracoPageVariant.contentTypeId NOT NULL; an upgrade from 17.2.2 or older keeps it NULL, as 17.2.0-17.2.4 share one last migration step and no step changes the column (verify --mode upgrade 17.2.0 -> 17.2.4: 1 Critical ColumnNullabilityDifferent). No upgraded manifest is stored: detection reports such a database as 'between 17.2.0 and 17.2.2 (upgrade record allows up to 17.2.4)'.",
+      "reason": "A fresh 17.2.3/17.2.4 creates umbracoEngageAnalyticsUmbracoPageVariant.contentTypeId NOT NULL; an upgrade from 17.2.2 or older keeps it NULL, and 17.2.0-17.2.4 record the same last migration step (verify --mode upgrade 17.2.0 -> 17.2.4: 1 Critical ColumnNullabilityDifferent). No upgraded manifest is stored: detection reports such a database as 'between 17.2.0 and 17.2.2 (upgrade record allows up to 17.2.4)'.",
       "sources": [
-        "Engage 17.2.3 CreateInitialTables (fresh install: contentTypeId NOT NULL)",
-        "Engage 17.2.4 EngageMigrationPlan (same last step as 17.2.0-17.2.2)"
+        "manifests/engage/17.2.3.fresh.json (fresh install: contentTypeId NOT NULL)",
+        "manifests/engage/17.2.0.fresh.json and 17.2.4.fresh.json (the same lastMigrationStep)"
       ]
     }
   ]

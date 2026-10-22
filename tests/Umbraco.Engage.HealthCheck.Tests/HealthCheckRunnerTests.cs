@@ -73,7 +73,7 @@ public class HealthCheckRunnerTests(SqlServerFixture sql) : IDisposable
     [Fact]
     public async Task Record_behind_the_schema_is_reported_and_checked_against_the_schema_match()
     {
-        // Issue #99: the schema is 17.5.0, but the upgrade record still says 17.4.0.
+        // https://github.com/umbraco/Umbraco.Engage.Issues/issues/99: the schema is 17.5.0, but the upgrade record still says 17.4.0.
         var cs = await SetUpAsync();
         Write(new Manifest(1, Products.Engage, "17.4.0", "fresh", "17.5.3", MigrationState.StateKey, "{older}", "Aligned", Older()));
         await SqlServerFixture.ExecuteAsync(cs, $"UPDATE umbracoKeyValue SET [value] = '{{older}}' WHERE [key] = '{MigrationState.StateKey}'");
