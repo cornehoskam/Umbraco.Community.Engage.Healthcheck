@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>engage-healthcheck</ToolCommandName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Umbraco.Engage.HealthCheck.Core\Umbraco.Engage.HealthCheck.Core.csproj" />
+    <PackageReference Include="System.CommandLine" />
+  </ItemGroup>
+
+</Project>

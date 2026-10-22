@@ -1,0 +1,51 @@
+{
+  "formatVersion": 1,
+  "product": "Engage.Forms",
+  "version": "16.2.0",
+  "variant": "fresh",
+  "umbracoVersion": "16.5.1",
+  "stateKey": "Umbraco.Core.Upgrader.State+Umbraco.Engage.Forms",
+  "lastMigrationStep": "FixGoalSettingsMigration",
+  "schema": {
+    "tables": [
+      {
+        "name": "umbracoEngageAnalyticsUmbracoFormsSubmissionRecord",
+        "columns": [
+          {
+            "name": "visitorExternalId",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "pageviewGuid",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          },
+          {
+            "name": "formId",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "recordId",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime2(7)"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsUmbracoFormsSubmissionRecord_visitorExternalId",
+            "keyColumns": [
+              {
+                "name": "visitorExternalId"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "hostEngageVersion": "16.3.3",
+  "installedFrom": "engage-first"
+}

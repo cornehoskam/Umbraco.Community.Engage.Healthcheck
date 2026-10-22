@@ -1,0 +1,46 @@
+{
+  "formatVersion": 1,
+  "product": "Engage.Commerce",
+  "version": "18.0.0",
+  "variant": "fresh",
+  "umbracoVersion": "18.2.1",
+  "stateKey": "Umbraco.Core.Upgrader.State+Umbraco.Engage.UmbracoCommerce",
+  "lastMigrationStep": "CreateAnalyticsUmbracoCommerceVisitorOrderTable",
+  "schema": {
+    "tables": [
+      {
+        "name": "umbracoEngageAnalyticsUmbracoCommerceVisitorOrder",
+        "columns": [
+          {
+            "name": "visitorExternalId",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "orderId",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "createDate",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "finalizedDate",
+            "dataType": "datetime2(0)",
+            "isNullable": true
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsUmbracoCommerceVisitorOrder_visitorExternalId",
+            "keyColumns": [
+              {
+                "name": "visitorExternalId"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "hostEngageVersion": "18.2.0"
+}

@@ -1,0 +1,6217 @@
+{
+  "formatVersion": 1,
+  "product": "Engage",
+  "version": "17.2.4",
+  "variant": "complete",
+  "umbracoVersion": "17.5.3",
+  "stateKey": "Umbraco.Core.Upgrader.State+Umbraco.Engage",
+  "lastMigrationStep": "{4e7a3b9c-8d2f-41e5-a6f7-5c1b3d9e2a8f}",
+  "schemaStatus": "Complete",
+  "schema": {
+    "tables": [
+      {
+        "name": "umbracoEngageAbTestingAbTest",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "projectId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "goalId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(50)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "description",
+            "dataType": "nvarchar(255)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime",
+            "isNullable": true,
+            "default": {
+              "name": "DF_umbracoEngageAbTestingAbTest_created",
+              "definition": "(getutcdate())"
+            }
+          },
+          {
+            "name": "testType",
+            "dataType": "tinyint",
+            "isNullable": true
+          },
+          {
+            "name": "startTime",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "endTime",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "participationPercentage",
+            "dataType": "decimal(4,3)",
+            "isNullable": true
+          },
+          {
+            "name": "minimumDetectableEffect",
+            "dataType": "decimal(4,3)",
+            "isNullable": true
+          },
+          {
+            "name": "benchmarkVariantId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "winnerVariantId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "isCompleted",
+            "dataType": "bit",
+            "default": {
+              "name": "DF_umbracoEngageAbTestingAbTest_isCompleted",
+              "definition": "((0))"
+            }
+          },
+          {
+            "name": "completedOn",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "estimatedDailyVisitors",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "baselineConversionRate",
+            "dataType": "decimal(4,3)",
+            "isNullable": true
+          },
+          {
+            "name": "viableVisitorThreshold",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngageAbTestingAbTest_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          },
+          {
+            "name": "completedByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          },
+          {
+            "name": "stoppedByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAbTestingAbTest",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngageAbTestingAbTest_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAbTestingAbTest_umbracoEngageSettingsGoal",
+            "columns": [
+              "goalId"
+            ],
+            "referencedTable": "umbracoEngageSettingsGoal",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAbTestingAbTest_umbracoEngageAbTestingAbTestProject",
+            "columns": [
+              "projectId"
+            ],
+            "referencedTable": "umbracoEngageAbTestingAbTestProject",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAbTestingAbTestContentType",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "abTestId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "contentTypeId",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "culture",
+            "dataType": "nvarchar(14)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngageAbTestingAbTestContentType_key",
+              "definition": "(newid())"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAbTestingAbTestContentType",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngageAbTestingAbTestContentType_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAbTestingAbTestContentType_umbracoEngageAbTestingAbTest",
+            "columns": [
+              "abTestId"
+            ],
+            "referencedTable": "umbracoEngageAbTestingAbTest",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAbTestingAbTestProject",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(128)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "description",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime"
+          },
+          {
+            "name": "invalid",
+            "dataType": "bit"
+          },
+          {
+            "name": "archived",
+            "dataType": "bit",
+            "default": {
+              "name": "DF_umbracoEngageAbTestingAbTestProject_archived",
+              "definition": "('False')"
+            }
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngageAbTestingAbTestProject_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "updatedByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAbTestingAbTestProject",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngageAbTestingAbTestProject_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAbTestingAbTestUmbracoPageVariant",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "abTestId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "nodeId",
+            "dataType": "int"
+          },
+          {
+            "name": "culture",
+            "dataType": "nvarchar(14)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngageAbTestingAbTestUmbracoPageVariant_key",
+              "definition": "(newid())"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAbTestingAbTestUmbracoPageVariant",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngageAbTestingAbTestUmbracoPageVariant_abTestId_nodeId",
+            "columns": [
+              "abTestId",
+              "nodeId"
+            ]
+          },
+          {
+            "name": "UQ_umbracoEngageAbTestingAbTestUmbracoPageVariant_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAbTestingAbTestUmbracoPageVariant_umbracoEngageAbTestingAbTest",
+            "columns": [
+              "abTestId"
+            ],
+            "referencedTable": "umbracoEngageAbTestingAbTest",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAbTestingAbTestVariant",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "abTestId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(100)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "description",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "css",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "javascript",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime"
+          },
+          {
+            "name": "disabled",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "isDisabled",
+            "dataType": "bit"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngageAbTestingAbTestVariant_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "disabledByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          },
+          {
+            "name": "redirectNodeKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAbTestingAbTestVariant",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngageAbTestingAbTestVariant_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAbTestingAbTestVariant_umbracoEngageAbTestingAbTest",
+            "columns": [
+              "abTestId"
+            ],
+            "referencedTable": "umbracoEngageAbTestingAbTest",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAbTestingAbTestVisitorToVariant",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "visitorId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "abTestId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "abTestVariantId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAbTestingAbTestVisitorToVariant",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngageAbTestingAbTestVisitorToVariant_abTestId_visitorId",
+            "columns": [
+              "abTestId",
+              "visitorId"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAbTestingAbTestVisitorToVariant_umbracoEngageAbTestingAbTest",
+            "columns": [
+              "abTestId"
+            ],
+            "referencedTable": "umbracoEngageAbTestingAbTest",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAbTestingAbTestVisitorToVariant_umbracoEngageAbTestingAbTestVariant",
+            "columns": [
+              "abTestVariantId"
+            ],
+            "referencedTable": "umbracoEngageAbTestingAbTestVariant",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAbTestingAbTestVisitorToVariant_umbracoEngageAnalyticsVisitor",
+            "columns": [
+              "visitorId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsVisitor",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAbTestingAbTestVisitorToVariant_visitorId",
+            "keyColumns": [
+              {
+                "name": "visitorId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsAnnotation",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime"
+          },
+          {
+            "name": "description",
+            "dataType": "nvarchar(4000)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime"
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "visibility",
+            "dataType": "int"
+          },
+          {
+            "name": "invalid",
+            "dataType": "bit",
+            "default": {
+              "name": "DF_umbracoEngageAnalyticsAnnotation_invalid",
+              "definition": "('False')"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "updatedByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsAnnotation",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      {
+        "name": "umbracoEngageAnalyticsAnnotationPageVariant",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "annotationId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "contentId",
+            "dataType": "int"
+          },
+          {
+            "name": "culture",
+            "dataType": "nvarchar(14)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsAnnotationPageVariant",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsAnnotationPageVariant_umbracoEngageAnalyticsAnnotation",
+            "columns": [
+              "annotationId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsAnnotation",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsBrowser",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "label",
+            "dataType": "nvarchar(50)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsBrowser",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngageAnalyticsBrowser_label",
+            "columns": [
+              "label"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsBrowserVersion",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "browserId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime2(0)",
+            "default": {
+              "name": "DF_umbracoEngageAnalyticsBrowserVersion_created",
+              "definition": "(getutcdate())"
+            }
+          },
+          {
+            "name": "version",
+            "dataType": "nvarchar(30)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsBrowserVersion",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsBrowserVersion_umbracoEngageAnalyticsBrowser",
+            "columns": [
+              "browserId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsBrowser",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsCleanupLog",
+        "columns": [
+          {
+            "name": "Started",
+            "dataType": "datetime2(7)"
+          },
+          {
+            "name": "Finished",
+            "dataType": "datetime2(7)"
+          },
+          {
+            "name": "Executor",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "Failed",
+            "dataType": "bit"
+          },
+          {
+            "name": "ErrorMessage",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "RunId",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngageAnalyticsCleanupLog_RunId",
+              "definition": "('00000000-0000-0000-0000-000000000000')"
+            }
+          },
+          {
+            "name": "TableName",
+            "dataType": "nvarchar(256)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "DurationMs",
+            "dataType": "bigint",
+            "default": {
+              "name": "DF_umbracoEngageAnalyticsCleanupLog_DurationMs",
+              "definition": "((0))"
+            }
+          },
+          {
+            "name": "RecordsAffected",
+            "dataType": "int",
+            "default": {
+              "name": "DF_umbracoEngageAnalyticsCleanupLog_RecordsAffected",
+              "definition": "((0))"
+            }
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsDevice",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "browserVersionId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "operatingSystemVersionId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "screenId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "deviceType",
+            "dataType": "tinyint"
+          },
+          {
+            "name": "useragent",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "defaultVisitorType",
+            "dataType": "tinyint",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsDevice",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsDevice_umbracoEngageAnalyticsBrowserVersion",
+            "columns": [
+              "browserVersionId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsBrowserVersion",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAnalyticsDevice_umbracoEngageAnalyticsOperatingSystemVersion",
+            "columns": [
+              "operatingSystemVersionId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsOperatingSystemVersion",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsDevice_browserVersionId",
+            "keyColumns": [
+              {
+                "name": "browserVersionId"
+              }
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsDevice_operatingSystemVersionId",
+            "keyColumns": [
+              {
+                "name": "operatingSystemVersionId"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsGoalCompletion",
+        "columns": [
+          {
+            "name": "goalId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "value",
+            "dataType": "decimal(11,2)"
+          },
+          {
+            "name": "pageviewId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "visitorId",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "sessionSequenceNumber",
+            "dataType": "int",
+            "isNullable": true
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsGoalCompletion_umbracoEngageSettingsGoal",
+            "columns": [
+              "goalId"
+            ],
+            "referencedTable": "umbracoEngageSettingsGoal",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAnalyticsGoalCompletion_umbracoEngageAnalyticsPageview",
+            "columns": [
+              "pageviewId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsPageview",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsGoalCompletion_pageviewId",
+            "keyColumns": [
+              {
+                "name": "pageviewId"
+              }
+            ],
+            "includedColumns": [
+              "goalId",
+              "value"
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsGoalCompletion_visitorId_timestamp",
+            "keyColumns": [
+              {
+                "name": "visitorId"
+              },
+              {
+                "name": "timestamp",
+                "descending": true
+              }
+            ],
+            "includedColumns": [
+              "goalId",
+              "sessionSequenceNumber"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsIpAddress",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "ipAddress",
+            "dataType": "nvarchar(45)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "locationId",
+            "dataType": "bigint",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsIpAddress",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsIpAddress_umbracoEngageAnalyticsIpLocation",
+            "columns": [
+              "locationId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsIpLocation",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsIpAddress_ipAddress",
+            "keyColumns": [
+              {
+                "name": "ipAddress"
+              }
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsIpAddress_locationId",
+            "keyColumns": [
+              {
+                "name": "locationId"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsIpCity",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(100)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsIpCity",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      {
+        "name": "umbracoEngageAnalyticsIpCountry",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(100)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsIpCountry",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      {
+        "name": "umbracoEngageAnalyticsIpCounty",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(100)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsIpCounty",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      {
+        "name": "umbracoEngageAnalyticsIpLocation",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "countryId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "provinceId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "countyId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "cityId",
+            "dataType": "bigint",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsIpLocation",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsIpLocation_umbracoEngageAnalyticsIpCity",
+            "columns": [
+              "cityId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsIpCity",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAnalyticsIpLocation_umbracoEngageAnalyticsIpCountry",
+            "columns": [
+              "countryId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsIpCountry",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAnalyticsIpLocation_umbracoEngageAnalyticsIpCounty",
+            "columns": [
+              "countyId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsIpCounty",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAnalyticsIpLocation_umbracoEngageAnalyticsIpProvince",
+            "columns": [
+              "provinceId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsIpProvince",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsIpLocation_cityId",
+            "keyColumns": [
+              {
+                "name": "cityId"
+              }
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsIpLocation_countyId",
+            "keyColumns": [
+              {
+                "name": "countyId"
+              }
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsIpLocation_provinceId",
+            "keyColumns": [
+              {
+                "name": "provinceId"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsIpProvince",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(100)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsIpProvince",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      {
+        "name": "umbracoEngageAnalyticsLinks",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime"
+          },
+          {
+            "name": "pageviewId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "href",
+            "dataType": "nvarchar(4000)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "pageId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "timeClicked",
+            "dataType": "datetime"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsLinks",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsLinks_umbracoEngageAnalyticsPage",
+            "columns": [
+              "pageId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsPage",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAnalyticsLinks_umbracoEngageAnalyticsPageview",
+            "columns": [
+              "pageviewId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsPageview",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsLinks_pageId",
+            "keyColumns": [
+              {
+                "name": "pageId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsLinks_pageviewId",
+            "keyColumns": [
+              {
+                "name": "pageviewId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsOperatingSystem",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(255)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "label",
+            "dataType": "nvarchar(50)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsOperatingSystem",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngageAnalyticsOperatingSystem_name",
+            "columns": [
+              "name"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsOperatingSystemVersion",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "operatingSystemId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime2(0)",
+            "default": {
+              "name": "DF_umbracoEngageAnalyticsOperatingSystemVersion_created",
+              "definition": "(getutcdate())"
+            }
+          },
+          {
+            "name": "version",
+            "dataType": "nvarchar(100)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsOperatingSystemVersion",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsOperatingSystemVersion_umbracoEngageAnalyticsOperatingSystem",
+            "columns": [
+              "operatingSystemId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsOperatingSystem",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsPage",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "protocol",
+            "dataType": "nvarchar(10)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "domain",
+            "dataType": "nvarchar(100)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "path",
+            "dataType": "nvarchar(max)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "port",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "isInternalPage",
+            "dataType": "bit"
+          },
+          {
+            "name": "searchEngineId",
+            "dataType": "bigint",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsPage",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsPage_umbracoEngageAnalyticsSearchEngine",
+            "columns": [
+              "searchEngineId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsSearchEngine",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsPageEvent",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime2(7)"
+          },
+          {
+            "name": "pageviewId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "category",
+            "dataType": "nvarchar(50)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "action",
+            "dataType": "nvarchar(50)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "label",
+            "dataType": "nvarchar(50)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "value",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "nonInteraction",
+            "dataType": "bit",
+            "default": {
+              "name": "DF_umbracoEngageAnalyticsPageEvent_nonInteraction",
+              "definition": "((0))"
+            }
+          },
+          {
+            "name": "visitorId",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "sessionSequenceNumber",
+            "dataType": "int",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsPageEvent",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsPageEvent_umbracoEngageAnalyticsPageview",
+            "columns": [
+              "pageviewId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsPageview",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsPageEvent_pageviewId",
+            "keyColumns": [
+              {
+                "name": "pageviewId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsPageEvent_visitorId_timestamp",
+            "keyColumns": [
+              {
+                "name": "visitorId"
+              },
+              {
+                "name": "timestamp",
+                "descending": true
+              }
+            ],
+            "includedColumns": [
+              "action",
+              "category",
+              "label",
+              "sessionSequenceNumber"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsPageview",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "guid",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngageAnalyticsPageview_guid",
+              "definition": "('00000000-0000-0000-0000-000000000000')"
+            }
+          },
+          {
+            "name": "sessionId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "pageId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "pageQuerystring",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "referrerPageId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "referrerQuerystring",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "millisecondsOnPage",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "utmSource",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "utmMedium",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "utmCampaign",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "utmTerm",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "utmContent",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "ipAddressId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "umbracoPageVariantId",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "appliedPersonalizationId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "umbracoMemberKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          },
+          {
+            "name": "wasPersonalized",
+            "dataType": "bit",
+            "default": {
+              "definition": "((0))"
+            }
+          },
+          {
+            "name": "utmSourcePlatform",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "utmCreativeFormat",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "utmMarketingTactic",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsPageview",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsPageview_umbracoEngagePersonalizationAppliedPersonalization",
+            "columns": [
+              "appliedPersonalizationId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationAppliedPersonalization",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAnalyticsPageview_umbracoEngageAnalyticsIpAddress",
+            "columns": [
+              "ipAddressId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsIpAddress",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAnalyticsPageview_umbracoEngageAnalyticsPage_pageId",
+            "columns": [
+              "pageId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsPage",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAnalyticsPageview_umbracoEngageAnalyticsPage_referrerPageId",
+            "columns": [
+              "referrerPageId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsPage",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAnalyticsPageview_umbracoEngageAnalyticsSession",
+            "columns": [
+              "sessionId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsSession",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAnalyticsPageview_umbracoEngageAnalyticsUmbracoPageVariant",
+            "columns": [
+              "umbracoPageVariantId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsUmbracoPageVariant",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsPageview_guid",
+            "keyColumns": [
+              {
+                "name": "guid"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsPageview_ipAddressId",
+            "keyColumns": [
+              {
+                "name": "ipAddressId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsPageview_sessionId",
+            "keyColumns": [
+              {
+                "name": "sessionId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsPageview_timestamp",
+            "keyColumns": [
+              {
+                "name": "timestamp"
+              }
+            ],
+            "includedColumns": [
+              "sessionId"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsPageviewAbTestVariant",
+        "columns": [
+          {
+            "name": "pageviewId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "abTestVariantId",
+            "dataType": "bigint"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsPageviewAbTestVariant",
+          "isClustered": true,
+          "columns": [
+            "pageviewId",
+            "abTestVariantId"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsPageviewAbTestVariant_umbracoEngageAbTestingAbTestVariant",
+            "columns": [
+              "abTestVariantId"
+            ],
+            "referencedTable": "umbracoEngageAbTestingAbTestVariant",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAnalyticsPageviewAbTestVariant_umbracoEngageAnalyticsPageview",
+            "columns": [
+              "pageviewId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsPageview",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsPageviewCleanupQueue",
+        "columns": [
+          {
+            "name": "pageviewId",
+            "dataType": "bigint"
+          }
+        ],
+        "primaryKey": {
+          "isClustered": true,
+          "columns": [
+            "pageviewId"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "columns": [
+              "pageviewId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsPageview",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsPageviewPersonalizationSegment",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "pageviewId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "segmentId",
+            "dataType": "bigint"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsPageviewPersonalizationSegment",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsPageviewPersonalizationSegment_umbracoEngageAnalyticsPageview",
+            "columns": [
+              "pageviewId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsPageview",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAnalyticsPageviewPersonalizationSegment_umbracoEngagePersonalizationSegment",
+            "columns": [
+              "segmentId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationSegment",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsPageviewPersonalizationSegment_pageviewId",
+            "keyColumns": [
+              {
+                "name": "pageviewId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsPageviewPersonalizationSegment_segmentId",
+            "keyColumns": [
+              {
+                "name": "segmentId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsRawClientSideData",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime"
+          },
+          {
+            "name": "data",
+            "dataType": "nvarchar(max)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "version",
+            "dataType": "int"
+          },
+          {
+            "name": "pageviewGuid",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "processingStarted",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "processingFinished",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "processingMachine",
+            "dataType": "nvarchar(255)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "processingFailed",
+            "dataType": "bit",
+            "default": {
+              "name": "DF_umbracoEngageAnalyticsRawClientSideData_processingFailed",
+              "definition": "('False')"
+            }
+          },
+          {
+            "name": "exception",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsRawClientSideData",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsRawClientSideData_Queue",
+            "keyColumns": [
+              {
+                "name": "id"
+              }
+            ],
+            "includedColumns": [
+              "pageviewGuid"
+            ],
+            "filter": "([processingStarted] IS NULL AND [processingFinished] IS NULL)"
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsRawClientSideData_timestamp",
+            "keyColumns": [
+              {
+                "name": "timestamp"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsRawCustomPageviewData",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime"
+          },
+          {
+            "name": "data",
+            "dataType": "nvarchar(max)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "type",
+            "dataType": "nvarchar(max)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "version",
+            "dataType": "int"
+          },
+          {
+            "name": "visitorExternalId",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          },
+          {
+            "name": "pageviewGuid",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          },
+          {
+            "name": "processingStarted",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "processingFinished",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "processingMachine",
+            "dataType": "nvarchar(255)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "processingFailed",
+            "dataType": "bit",
+            "default": {
+              "definition": "((0))"
+            }
+          },
+          {
+            "name": "exception",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsRawCustomPageviewData",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsRawCustomPageviewData_Optimization",
+            "keyColumns": [
+              {
+                "name": "id"
+              }
+            ],
+            "includedColumns": [
+              "pageviewGuid",
+              "visitorExternalId"
+            ],
+            "filter": "([processingStarted] IS NULL AND [processingFinished] IS NULL)"
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsRawCustomPageviewData_timestamp",
+            "keyColumns": [
+              {
+                "name": "timestamp"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsScreen",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "width",
+            "dataType": "int"
+          },
+          {
+            "name": "height",
+            "dataType": "int"
+          },
+          {
+            "name": "pixelDepth",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "colorDepth",
+            "dataType": "int",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsScreen",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      {
+        "name": "umbracoEngageAnalyticsScrollDepth",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "pageviewId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime"
+          },
+          {
+            "name": "pixels",
+            "dataType": "int"
+          },
+          {
+            "name": "percentage",
+            "dataType": "int"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsScrollDepth",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsScrollDepth_umbracoEngageAnalyticsPageview",
+            "columns": [
+              "pageviewId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsPageview",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsScrollDepth_pageviewId",
+            "keyColumns": [
+              {
+                "name": "pageviewId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsSearchEngine",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "domain",
+            "dataType": "nvarchar(max)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(20)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsSearchEngine",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      {
+        "name": "umbracoEngageAnalyticsSearchQuery",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "pageviewId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "query",
+            "dataType": "nvarchar(max)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime2(7)"
+          },
+          {
+            "name": "searchbox",
+            "dataType": "nvarchar(255)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "category",
+            "dataType": "nvarchar(255)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsSearchQuery",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsSearchQuery_umbracoEngageAnalyticsPageview",
+            "columns": [
+              "pageviewId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsPageview",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsSearchQuery_pageviewId",
+            "keyColumns": [
+              {
+                "name": "pageviewId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsSession",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "visitorId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "deviceId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "sequenceNumber",
+            "dataType": "int"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsSession",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsSession_deviceId",
+            "keyColumns": [
+              {
+                "name": "deviceId"
+              }
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsSession_timestamp_visitorId",
+            "keyColumns": [
+              {
+                "name": "timestamp",
+                "descending": true
+              },
+              {
+                "name": "visitorId",
+                "descending": true
+              }
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsSession_visitorId_sequenceNumber",
+            "keyColumns": [
+              {
+                "name": "visitorId"
+              },
+              {
+                "name": "sequenceNumber"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsTimeOnPage",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "pageviewId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime"
+          },
+          {
+            "name": "timeOnPageMs",
+            "dataType": "int"
+          },
+          {
+            "name": "engagedTimeOnPageMs",
+            "dataType": "int"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsTimeOnPage",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsTimeOnPage_umbracoEngageAnalyticsPageview",
+            "columns": [
+              "pageviewId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsPageview",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsTimeOnPage_pageviewId",
+            "keyColumns": [
+              {
+                "name": "pageviewId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsUmbracoFormsField",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(255)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsUmbracoFormsField",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      {
+        "name": "umbracoEngageAnalyticsUmbracoFormsSubmission",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "pageviewId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "formId",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "formName",
+            "dataType": "nvarchar(255)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "wasSubmitted",
+            "dataType": "bit"
+          },
+          {
+            "name": "hasErrors",
+            "dataType": "bit"
+          },
+          {
+            "name": "inViewPort",
+            "dataType": "bit"
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "startedOn",
+            "dataType": "datetime2(0)",
+            "isNullable": true
+          },
+          {
+            "name": "submittedOn",
+            "dataType": "datetime2(0)",
+            "isNullable": true
+          },
+          {
+            "name": "recordId",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsUmbracoFormsSubmission",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsUmbracoFormsSubmission_umbracoEngageAnalyticsPageview",
+            "columns": [
+              "pageviewId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsPageview",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsUmbracoFormsSubmission_pageviewId",
+            "keyColumns": [
+              {
+                "name": "pageviewId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsUmbracoFormsSubmissionAction",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "submissionId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "actionType",
+            "dataType": "tinyint"
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "fieldId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "recordFieldKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsUmbracoFormsSubmissionAction",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsUmbracoFormsSubmissionAction_umbracoEngageAnalyticsUmbracoFormsField",
+            "columns": [
+              "fieldId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsUmbracoFormsField",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAnalyticsUmbracoFormsSubmissionAction_umbracoEngageAnalyticsUmbracoFormsSubmission",
+            "columns": [
+              "submissionId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsUmbracoFormsSubmission",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsUmbracoFormsSubmissionAction_fieldId",
+            "keyColumns": [
+              {
+                "name": "fieldId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsUmbracoFormsSubmissionAction_submissionId",
+            "keyColumns": [
+              {
+                "name": "submissionId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsUmbracoFormsSubmissionError",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "submissionId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "errorType",
+            "dataType": "tinyint"
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "fieldId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "recordFieldKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsUmbracoFormsSubmissionError",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsUmbracoFormsSubmissionError_umbracoEngageAnalyticsUmbracoFormsField",
+            "columns": [
+              "fieldId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsUmbracoFormsField",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAnalyticsUmbracoFormsSubmissionError_umbracoEngageAnalyticsUmbracoFormsSubmission",
+            "columns": [
+              "submissionId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsUmbracoFormsSubmission",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsUmbracoFormsSubmissionError_fieldId",
+            "keyColumns": [
+              {
+                "name": "fieldId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsUmbracoFormsSubmissionError_submissionId",
+            "keyColumns": [
+              {
+                "name": "submissionId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsUmbracoPageVariant",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int",
+            "isIdentity": true
+          },
+          {
+            "name": "nodeId",
+            "dataType": "int"
+          },
+          {
+            "name": "culture",
+            "dataType": "nvarchar(14)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "segment",
+            "dataType": "nvarchar(256)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "contentTypeId",
+            "dataType": "int"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsUmbracoPageVariant",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsUmbracoPageVariant_id_nodeId_culture",
+            "keyColumns": [
+              {
+                "name": "id"
+              },
+              {
+                "name": "nodeId"
+              },
+              {
+                "name": "culture"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsVideo",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "url",
+            "dataType": "nvarchar(max)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "source",
+            "dataType": "tinyint"
+          },
+          {
+            "name": "totalLengthInSeconds",
+            "dataType": "int"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsVideo",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      {
+        "name": "umbracoEngageAnalyticsVideoEvent",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "pageviewId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "videoId",
+            "dataType": "int"
+          },
+          {
+            "name": "actionType",
+            "dataType": "tinyint"
+          },
+          {
+            "name": "atSeconds",
+            "dataType": "int"
+          },
+          {
+            "name": "atPercentage",
+            "dataType": "decimal(5,4)"
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime2(0)"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsVideoEvent",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsVideoEvent_umbracoEngageAnalyticsPageview",
+            "columns": [
+              "pageviewId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsPageview",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsVideoEvent_pageviewId",
+            "keyColumns": [
+              {
+                "name": "pageviewId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          }
+        ],
+        "checkConstraints": [
+          {
+            "name": "CK_umbracoEngageAnalyticsVideoEvent_atPercentage",
+            "definition": "([atPercentage]>=(0) AND [atPercentage]<=(1))"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsVideoStatistics",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "pageviewId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "videoId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "totalWatchTimeInSeconds",
+            "dataType": "int"
+          },
+          {
+            "name": "totalWatchTimeInPercentage",
+            "dataType": "decimal(5,4)"
+          },
+          {
+            "name": "displayed",
+            "dataType": "bit"
+          },
+          {
+            "name": "watched",
+            "dataType": "bit"
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime2(0)"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsVideoStatistics",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngageAnalyticsVideoStatistics_pageviewId_videoId",
+            "columns": [
+              "pageviewId",
+              "videoId"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsVideoStatistics_umbracoEngageAnalyticsPageview",
+            "columns": [
+              "pageviewId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsPageview",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAnalyticsVideoStatistics_umbracoEngageAnalyticsVideo",
+            "columns": [
+              "videoId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsVideo",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsVideoStatistics_pageviewId",
+            "keyColumns": [
+              {
+                "name": "pageviewId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsVideoStatistics_videoId",
+            "keyColumns": [
+              {
+                "name": "videoId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsVisitor",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "externalId",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "visitorType",
+            "dataType": "tinyint"
+          },
+          {
+            "name": "lastActiveOn",
+            "dataType": "datetime2(0)",
+            "isNullable": true
+          },
+          {
+            "name": "identifiedOn",
+            "dataType": "date",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsVisitor",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngageAnalyticsVisitor_externalId",
+            "columns": [
+              "externalId"
+            ]
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsVisitor_lastActiveOn_visitorType_identifiedOn_externalId",
+            "keyColumns": [
+              {
+                "name": "lastActiveOn",
+                "descending": true
+              },
+              {
+                "name": "visitorType"
+              },
+              {
+                "name": "identifiedOn"
+              },
+              {
+                "name": "externalId"
+              }
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsVisitor_timestamp_visitorType_identifiedOn",
+            "keyColumns": [
+              {
+                "name": "timestamp"
+              },
+              {
+                "name": "visitorType"
+              },
+              {
+                "name": "identifiedOn"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsVisitorTypeBot",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "label",
+            "dataType": "nvarchar(50)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsVisitorTypeBot",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      {
+        "name": "umbracoEngageAnalyticsVisitorTypeBotVersion",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "botId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "version",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "visitorId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime2(0)",
+            "default": {
+              "name": "DF_umbracoEngageAnalyticsVisitorTypeBotVersion_created",
+              "definition": "(getutcdate())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsVisitorTypeBotVersion",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsVisitorTypeBotVersion_umbracoEngageAnalyticsVisitorTypeBot",
+            "columns": [
+              "botId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsVisitorTypeBot",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngageAnalyticsVisitorTypeBotVersion_umbracoEngageAnalyticsVisitor",
+            "columns": [
+              "visitorId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsVisitor",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsVisitorTypeBotVersion_botId",
+            "keyColumns": [
+              {
+                "name": "botId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageAnalyticsVisitorTypeBotVersion_visitorId",
+            "keyColumns": [
+              {
+                "name": "visitorId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsVisitorTypeMonitor",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "label",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "visitorId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime2(0)",
+            "isNullable": true,
+            "default": {
+              "name": "DF_umbracoEngageAnalyticsVisitorTypeMonitor_created",
+              "definition": "(getutcdate())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsVisitorTypeMonitor",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsVisitorTypeMonitor_umbracoEngageAnalyticsVisitor",
+            "columns": [
+              "visitorId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsVisitor",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsVisitorTypeMonitor_visitorId",
+            "keyColumns": [
+              {
+                "name": "visitorId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageAnalyticsVisitorTypeSpam",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "label",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "visitorId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime2(0)",
+            "isNullable": true,
+            "default": {
+              "name": "DF_umbracoEngageAnalyticsVisitorTypeSpam_created",
+              "definition": "(getutcdate())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageAnalyticsVisitorTypeSpam",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageAnalyticsVisitorTypeSpam_umbracoEngageAnalyticsVisitor",
+            "columns": [
+              "visitorId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsVisitor",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageAnalyticsVisitorTypeSpam_visitorId",
+            "keyColumns": [
+              {
+                "name": "visitorId"
+              }
+            ],
+            "includedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageCockpitAuthToken",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "tokenHash",
+            "dataType": "nvarchar(64)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "userKey",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "userName",
+            "dataType": "nvarchar(255)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "expires",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "isUsed",
+            "dataType": "bit",
+            "default": {
+              "name": "DF_umbracoEngageCockpitAuthToken_isUsed",
+              "definition": "((0))"
+            }
+          },
+          {
+            "name": "used",
+            "dataType": "datetime2(0)",
+            "isNullable": true
+          },
+          {
+            "name": "usedFromIp",
+            "dataType": "nvarchar(45)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageCockpitAuthToken",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageCockpitAuthToken_expires",
+            "keyColumns": [
+              {
+                "name": "expires"
+              }
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageCockpitAuthToken_tokenHash",
+            "isUnique": true,
+            "keyColumns": [
+              {
+                "name": "tokenHash"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageCockpitSession",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "userKey",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "userName",
+            "dataType": "nvarchar(255)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "expires",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "lastAccessed",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "ipAddress",
+            "dataType": "nvarchar(45)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "userAgent",
+            "dataType": "nvarchar(512)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "isRevoked",
+            "dataType": "bit",
+            "default": {
+              "name": "DF_umbracoEngageCockpitSession_isRevoked",
+              "definition": "((0))"
+            }
+          },
+          {
+            "name": "revoked",
+            "dataType": "datetime2(0)",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageCockpitSession",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageCockpitSession_expires_isRevoked",
+            "keyColumns": [
+              {
+                "name": "expires"
+              },
+              {
+                "name": "isRevoked"
+              }
+            ]
+          },
+          {
+            "name": "IX_umbracoEngageCockpitSession_userKey",
+            "keyColumns": [
+              {
+                "name": "userKey"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageLock",
+        "columns": [
+          {
+            "name": "name",
+            "dataType": "nvarchar(64)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "value",
+            "dataType": "bit"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageLock",
+          "isClustered": true,
+          "columns": [
+            "name"
+          ]
+        }
+      },
+      {
+        "name": "umbracoEngagePersonalizationAppliedPersonalization",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "segmentId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "type",
+            "dataType": "tinyint",
+            "isNullable": true
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(255)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "description",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "css",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "javascript",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "started",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "isActive",
+            "dataType": "bit"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime"
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "invalid",
+            "dataType": "bit"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationAppliedPersonalization_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "updatedByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationAppliedPersonalization",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationAppliedPersonalization_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationAppliedPersonalizationContentType",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "personalizationId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "contentTypeId",
+            "dataType": "int"
+          },
+          {
+            "name": "culture",
+            "dataType": "nvarchar(14)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationAppliedPersonalizationContentType_key",
+              "definition": "(newid())"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationAppliedPersonalizationContentType",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationAppliedPersonalizationContentType_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationAppliedPersonalizationContentType_umbracoEngagePersonalizationAppliedPersonalization",
+            "columns": [
+              "personalizationId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationAppliedPersonalization",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationAppliedPersonalizationUmbracoPageVariant",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "personalizationId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "nodeId",
+            "dataType": "int"
+          },
+          {
+            "name": "culture",
+            "dataType": "nvarchar(14)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationAppliedPersonalizationUmbracoPageVariant_key",
+              "definition": "(newid())"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationAppliedPersonalizationUmbracoPageVariant",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationAppliedPersonalizationUmbracoPageVariant_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationAppliedPersonalizationUmbracoPageVariant_umbracoEngagePersonalizationAppliedPersonalization",
+            "columns": [
+              "personalizationId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationAppliedPersonalization",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationCampaign",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "campaignGroupId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime2(0)",
+            "isNullable": true
+          },
+          {
+            "name": "utmSource",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "utmMedium",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "utmCampaign",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "utmTerm",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "utmContent",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "utmSourcePlatform",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "utmCreativeFormat",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "utmMarketingTactic",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationCampaign_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "updatedByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationCampaign",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationCampaign_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationCampaign_umbracoEngagePersonalizationCampaignGroup",
+            "columns": [
+              "campaignGroupId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationCampaignGroup",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationCampaignGroup",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(50)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "description",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime2(0)",
+            "isNullable": true
+          },
+          {
+            "name": "invalid",
+            "dataType": "bit"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationCampaignGroup_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "updatedByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationCampaignGroup",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationCampaignGroup_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationCampaignGroupCustomerJourneyScoring",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "campaignGroupId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "customerJourneyStepId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "score",
+            "dataType": "int"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationCampaignGroupCustomerJourneyScoring_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "IsLocked",
+            "dataType": "bit",
+            "default": {
+              "definition": "((0))"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationCampaignGroupCustomerJourneyScoring",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationCampaignGroupCustomerJourneyScoring_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationCampaignGroupCustomerJourneyScoring_umbracoEngagePersonalizationCampaignGroup",
+            "columns": [
+              "campaignGroupId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationCampaignGroup",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngagePersonalizationCampaignGroupCustomerJourneyScoring_umbracoEngagePersonalizationCustomerJourneyStep",
+            "columns": [
+              "customerJourneyStepId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationCustomerJourneyStep",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationCampaignGroupPersonaScoring",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "campaignGroupId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "personaId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "score",
+            "dataType": "int"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationCampaignGroupPersonaScoring_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "IsLocked",
+            "dataType": "bit",
+            "default": {
+              "definition": "((0))"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationCampaignGroupPersonaScoring",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationCampaignGroupPersonaScoring_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationCampaignGroupPersonaScoring_umbracoEngagePersonalizationCampaignGroup",
+            "columns": [
+              "campaignGroupId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationCampaignGroup",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngagePersonalizationCampaignGroupPersonaScoring_umbracoEngagePersonalizationPersona",
+            "columns": [
+              "personaId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationPersona",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationContentScoringCustomerJourneyStep",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "customerJourneyStepId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "nodeId",
+            "dataType": "int"
+          },
+          {
+            "name": "score",
+            "dataType": "int"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime2(0)",
+            "isNullable": true
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationContentScoringCustomerJourneyStep_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "IsLocked",
+            "dataType": "bit",
+            "default": {
+              "definition": "((0))"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationContentScoringCustomerJourneyStep",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationContentScoringCustomerJourneyStep_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationContentScoringCustomerJourneyStep_umbracoEngagePersonalizationCustomerJourneyStep",
+            "columns": [
+              "customerJourneyStepId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationCustomerJourneyStep",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationContentScoringPersona",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "personaId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "nodeId",
+            "dataType": "int"
+          },
+          {
+            "name": "score",
+            "dataType": "int"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime2(0)",
+            "isNullable": true
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationContentScoringPersona_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "IsLocked",
+            "dataType": "bit",
+            "default": {
+              "definition": "((0))"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationContentScoringPersona",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationContentScoringPersona_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationContentScoringPersona_umbracoEngagePersonalizationPersona",
+            "columns": [
+              "personaId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationPersona",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationCustomerJourneyGroup",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "title",
+            "dataType": "nvarchar(100)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "description",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "invalid",
+            "dataType": "bit"
+          },
+          {
+            "name": "minimumParticipationScoreThreshold",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "minimumDeviationType",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "minimumDeviation",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "expirationType",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "expiration",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "upperScoreLimit",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationCustomerJourneyGroup_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          },
+          {
+            "name": "updatedByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationCustomerJourneyGroup",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationCustomerJourneyGroup_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationCustomerJourneyStep",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "title",
+            "dataType": "nvarchar(100)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "description",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "iconMediaId",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "color",
+            "dataType": "nvarchar(100)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "customerJourneyGroupId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "created",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "invalid",
+            "dataType": "bit"
+          },
+          {
+            "name": "order",
+            "dataType": "int"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationCustomerJourneyStep_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          },
+          {
+            "name": "updatedByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationCustomerJourneyStep",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationCustomerJourneyStep_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationCustomerJourneyStep_umbracoEngagePersonalizationCustomerJourneyGroup",
+            "columns": [
+              "customerJourneyGroupId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationCustomerJourneyGroup",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationGoalCustomerJourneyScoring",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "goalId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "customerJourneyStepId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "score",
+            "dataType": "int"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationGoalCustomerJourneyScoring_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "IsLocked",
+            "dataType": "bit",
+            "default": {
+              "definition": "((0))"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationGoalCustomerJourneyScoring",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationGoalCustomerJourneyScoring_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationGoalCustomerJourneyScoring_umbracoEngagePersonalizationCustomerJourneyStep",
+            "columns": [
+              "customerJourneyStepId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationCustomerJourneyStep",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngagePersonalizationGoalCustomerJourneyScoring_umbracoEngageSettingsGoal",
+            "columns": [
+              "goalId"
+            ],
+            "referencedTable": "umbracoEngageSettingsGoal",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngagePersonalizationGoalCustomerJourneyScoring_goalId",
+            "keyColumns": [
+              {
+                "name": "goalId"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationGoalPersonaScoring",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "goalId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "personaId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "score",
+            "dataType": "int"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationGoalPersonaScoring_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "IsLocked",
+            "dataType": "bit",
+            "default": {
+              "definition": "((0))"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationGoalPersonaScoring",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationGoalPersonaScoring_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationGoalPersonaScoring_umbracoEngageSettingsGoal",
+            "columns": [
+              "goalId"
+            ],
+            "referencedTable": "umbracoEngageSettingsGoal",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngagePersonalizationGoalPersonaScoring_umbracoEngagePersonalizationPersona",
+            "columns": [
+              "personaId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationPersona",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngagePersonalizationGoalPersonaScoring_goalId",
+            "keyColumns": [
+              {
+                "name": "goalId"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationLockedCustomerJourneyStepScore",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "customerJourneyStepId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "visitorExternalId",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "pageviewId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime2(0)",
+            "default": {
+              "definition": "(getutcdate())"
+            }
+          },
+          {
+            "name": "scoreType",
+            "dataType": "tinyint",
+            "default": {
+              "definition": "((0))"
+            }
+          },
+          {
+            "name": "sessionId",
+            "dataType": "bigint",
+            "default": {
+              "definition": "((0))"
+            }
+          },
+          {
+            "name": "sessionSequenceNumber",
+            "dataType": "tinyint",
+            "default": {
+              "definition": "((1))"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationLockedCustomerJourneyStepScore",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationLockedCustomerJourneyStepScore_umbracoEngagePersonalizationCustomerJourneyStep",
+            "columns": [
+              "customerJourneyStepId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationCustomerJourneyStep",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngagePersonalizationLockedCustomerJourneyStepScore_VisitorEntity",
+            "isUnique": true,
+            "keyColumns": [
+              {
+                "name": "visitorExternalId"
+              },
+              {
+                "name": "customerJourneyStepId"
+              }
+            ],
+            "includedColumns": [
+              "scoreType",
+              "timestamp"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationLockedPersonaScore",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "personaId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "visitorExternalId",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "pageviewId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime2(0)",
+            "default": {
+              "definition": "(getutcdate())"
+            }
+          },
+          {
+            "name": "scoreType",
+            "dataType": "tinyint",
+            "default": {
+              "definition": "((0))"
+            }
+          },
+          {
+            "name": "sessionId",
+            "dataType": "bigint",
+            "default": {
+              "definition": "((0))"
+            }
+          },
+          {
+            "name": "sessionSequenceNumber",
+            "dataType": "tinyint",
+            "default": {
+              "definition": "((1))"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationLockedPersonaScore",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationLockedPersonaScore_umbracoEngagePersonalizationPersona",
+            "columns": [
+              "personaId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationPersona",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngagePersonalizationLockedPersonaScore_VisitorEntity",
+            "isUnique": true,
+            "keyColumns": [
+              {
+                "name": "visitorExternalId"
+              },
+              {
+                "name": "personaId"
+              }
+            ],
+            "includedColumns": [
+              "scoreType",
+              "timestamp"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationPageviewCustomerJourneyStepScore",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "customerJourneyStepId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "pageviewId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "visitorId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "externalId",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "sessionId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "sessionSequenceNumber",
+            "dataType": "int"
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "score",
+            "dataType": "smallint"
+          },
+          {
+            "name": "scoreType",
+            "dataType": "tinyint"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationPageviewCustomerJourneyStepScore",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "indexes": [
+          {
+            "name": "IX_umbracoEngagePersonalizationPageviewCustomerJourneyStepScore_externalId",
+            "keyColumns": [
+              {
+                "name": "externalId"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationPageviewPersonaScore",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "personaId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "pageviewId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "visitorId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "externalId",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "sessionId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "sessionSequenceNumber",
+            "dataType": "int"
+          },
+          {
+            "name": "timestamp",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "score",
+            "dataType": "smallint"
+          },
+          {
+            "name": "scoreType",
+            "dataType": "tinyint"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationPageviewPersonaScore",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "indexes": [
+          {
+            "name": "IX_umbracoEngagePersonalizationPageviewPersonaScore_externalId",
+            "keyColumns": [
+              {
+                "name": "externalId"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationPersona",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "title",
+            "dataType": "nvarchar(100)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "description",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "iconMediaId",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "color",
+            "dataType": "nvarchar(100)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "personaGroupId",
+            "dataType": "bigint",
+            "isNullable": true
+          },
+          {
+            "name": "created",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "invalid",
+            "dataType": "bit"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationPersona_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          },
+          {
+            "name": "updatedByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          },
+          {
+            "name": "Order",
+            "dataType": "int",
+            "default": {
+              "definition": "((0))"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationPersona",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationPersona_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationPersona_umbracoEngagePersonalizationPersonaGroup",
+            "columns": [
+              "personaGroupId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationPersonaGroup",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationPersonaGroup",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "title",
+            "dataType": "nvarchar(100)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "description",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "invalid",
+            "dataType": "bit"
+          },
+          {
+            "name": "minimumParticipationScoreThreshold",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "minimumDeviationType",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "minimumDeviation",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "expirationType",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "expiration",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "upperScoreLimit",
+            "dataType": "int",
+            "isNullable": true
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationPersonaGroup_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          },
+          {
+            "name": "updatedByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationPersonaGroup",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationPersonaGroup_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationReferralGroup",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(50)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "description",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime2(0)",
+            "isNullable": true
+          },
+          {
+            "name": "invalid",
+            "dataType": "bit"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationReferralGroup_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "updatedByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationReferralGroup",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationReferralGroup_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationReferralGroupCustomerJourneyScoring",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "referralGroupId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "customerJourneyStepId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "score",
+            "dataType": "int"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationReferralGroupCustomerJourneyScoring_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "IsLocked",
+            "dataType": "bit",
+            "default": {
+              "definition": "((0))"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationReferralGroupCustomerJourneyScoring",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationReferralGroupCustomerJourneyScoring_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationReferralGroupCustomerJourneyScoring_umbracoEngagePersonalizationCustomerJourneyStep",
+            "columns": [
+              "customerJourneyStepId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationCustomerJourneyStep",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngagePersonalizationReferralGroupCustomerJourneyScoring_umbracoEngagePersonalizationReferralGroup",
+            "columns": [
+              "referralGroupId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationReferralGroup",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationReferralGroupPage",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "pageId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "referralGroupId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "domainOnly",
+            "dataType": "bit"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationReferralGroupPage_key",
+              "definition": "(newid())"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationReferralGroupPage",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationReferralGroupPage_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationReferralGroupPage_umbracoEngageAnalyticsPage",
+            "columns": [
+              "pageId"
+            ],
+            "referencedTable": "umbracoEngageAnalyticsPage",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngagePersonalizationReferralGroupPage_umbracoEngagePersonalizationReferralGroup",
+            "columns": [
+              "referralGroupId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationReferralGroup",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationReferralGroupPersonaScoring",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "referralGroupId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "personaId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "score",
+            "dataType": "int"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationReferralGroupPersonaScoring_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "IsLocked",
+            "dataType": "bit",
+            "default": {
+              "definition": "((0))"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationReferralGroupPersonaScoring",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationReferralGroupPersonaScoring_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationReferralGroupPersonaScoring_umbracoEngagePersonalizationPersona",
+            "columns": [
+              "personaId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationPersona",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "NO_ACTION",
+            "updateAction": "NO_ACTION"
+          },
+          {
+            "name": "FK_umbracoEngagePersonalizationReferralGroupPersonaScoring_umbracoEngagePersonalizationReferralGroup",
+            "columns": [
+              "referralGroupId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationReferralGroup",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationSegment",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(max)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "description",
+            "dataType": "nvarchar(max)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime2(0)",
+            "isNullable": true
+          },
+          {
+            "name": "endTime",
+            "dataType": "datetime2(0)",
+            "isNullable": true
+          },
+          {
+            "name": "isTemporary",
+            "dataType": "bit",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationSegment_isTemporary",
+              "definition": "((0))"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "dataType": "int",
+            "default": {
+              "definition": "((0))"
+            }
+          },
+          {
+            "name": "controlGroupSize",
+            "dataType": "decimal(3,2)",
+            "isNullable": true,
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationSegment_controlGroupSize",
+              "definition": "((0.20))"
+            }
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationSegment_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "updatedByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          },
+          {
+            "name": "isDeleted",
+            "dataType": "bit",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationSegment_isDeleted",
+              "definition": "((0))"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationSegment",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationSegment_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationSegmentRule",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "segmentId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "type",
+            "dataType": "varchar(32)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "config",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime2(0)",
+            "isNullable": true
+          },
+          {
+            "name": "isNegation",
+            "dataType": "bit",
+            "default": {
+              "definition": "((0))"
+            }
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngagePersonalizationSegmentRule_key",
+              "definition": "(newid())"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationSegmentRule",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationSegmentRule_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationSegmentRule_umbracoEngagePersonalizationSegment",
+            "columns": [
+              "segmentId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationSegment",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngagePersonalizationVisitorSegmentSettings",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "visitorId",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "segmentId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "isInControlGroup",
+            "dataType": "bit"
+          },
+          {
+            "name": "created",
+            "dataType": "date",
+            "default": {
+              "definition": "(getdate())"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngagePersonalizationVisitorSegmentSettings",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngagePersonalizationVisitorSegmentSettings_visitorId_segmentId",
+            "columns": [
+              "visitorId",
+              "segmentId"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngagePersonalizationVisitorSegmentSettings_umbracoEngagePersonalizationSegment",
+            "columns": [
+              "segmentId"
+            ],
+            "referencedTable": "umbracoEngagePersonalizationSegment",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ],
+        "indexes": [
+          {
+            "name": "IX_umbracoEngagePersonalizationVisitorSegmentSettings_created",
+            "keyColumns": [
+              {
+                "name": "created",
+                "descending": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageReportingStarGenerationLog",
+        "columns": [
+          {
+            "name": "Started",
+            "dataType": "datetime2(7)"
+          },
+          {
+            "name": "Finished",
+            "dataType": "datetime2(7)"
+          },
+          {
+            "name": "Failed",
+            "dataType": "bit"
+          },
+          {
+            "name": "ErrorMessage",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageReportingStarGenerationStatus",
+        "columns": [
+          {
+            "name": "LastRun",
+            "dataType": "datetime2(7)",
+            "isNullable": true
+          },
+          {
+            "name": "IsRunning",
+            "dataType": "bit"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageSettingsDocumentTypePermission",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "contentTypeId",
+            "dataType": "int"
+          },
+          {
+            "name": "showAnalytics",
+            "dataType": "bit"
+          },
+          {
+            "name": "allowAbTesting",
+            "dataType": "bit"
+          },
+          {
+            "name": "allowScorePersonalization",
+            "dataType": "bit"
+          },
+          {
+            "name": "allowApplyPersonalization",
+            "dataType": "bit"
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngageSettingsDocumentTypePermission_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "updatedByUmbracoUserKey",
+            "dataType": "uniqueidentifier"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageSettingsDocumentTypePermission",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageSettingsDocumentTypePermission_key",
+            "keyColumns": [
+              {
+                "name": "key"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageSettingsGoal",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(100)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "value",
+            "dataType": "decimal(11,2)"
+          },
+          {
+            "name": "goalTypeId",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "goalTypeConfig",
+            "dataType": "nvarchar(max)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "isMain",
+            "dataType": "bit"
+          },
+          {
+            "name": "isInverted",
+            "dataType": "bit"
+          },
+          {
+            "name": "created",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime2(0)",
+            "isNullable": true
+          },
+          {
+            "name": "isActive",
+            "dataType": "bit"
+          },
+          {
+            "name": "isInvalid",
+            "dataType": "bit"
+          },
+          {
+            "name": "isImplicitScoringEnabled",
+            "dataType": "bit",
+            "default": {
+              "name": "DF_umbracoEngageSettingsGoal_isImplicitScoringEnabled",
+              "definition": "((0))"
+            }
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngageSettingsGoal_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "updatedByUmbracoUserKey",
+            "dataType": "uniqueidentifier",
+            "isNullable": true
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageSettingsGoal",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngageSettingsGoal_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageSettingsIpFilter",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "created",
+            "dataType": "datetime"
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime",
+            "isNullable": true
+          },
+          {
+            "name": "filterType",
+            "dataType": "int"
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(255)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "description",
+            "dataType": "nvarchar(4000)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "regularExpression",
+            "dataType": "nvarchar(4000)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngageSettingsIpFilter_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageSettingsIpFilter",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngageSettingsIpFilter_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageSettingsIpFilterIpAddress",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "ipFilterId",
+            "dataType": "bigint"
+          },
+          {
+            "name": "ipAddress",
+            "dataType": "nvarchar(255)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngageSettingsIpFilterIpAddress_key",
+              "definition": "(newid())"
+            }
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageSettingsIpFilterIpAddress",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngageSettingsIpFilterIpAddress_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ],
+        "foreignKeys": [
+          {
+            "name": "FK_umbracoEngageSettingsIpFilterIpAddress_umbracoEngageSettingsIpFilter",
+            "columns": [
+              "ipFilterId"
+            ],
+            "referencedTable": "umbracoEngageSettingsIpFilter",
+            "referencedColumns": [
+              "id"
+            ],
+            "deleteAction": "CASCADE",
+            "updateAction": "NO_ACTION"
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageSettingsTrafficFilter",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "created",
+            "dataType": "datetime2(0)",
+            "default": {
+              "definition": "(getutcdate())"
+            }
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime2(0)",
+            "isNullable": true
+          },
+          {
+            "name": "type",
+            "dataType": "nvarchar(50)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "mode",
+            "dataType": "int"
+          },
+          {
+            "name": "name",
+            "dataType": "nvarchar(255)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "isActive",
+            "dataType": "bit",
+            "default": {
+              "definition": "((1))"
+            }
+          },
+          {
+            "name": "description",
+            "dataType": "nvarchar(4000)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "condition",
+            "dataType": "nvarchar(50)",
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "value",
+            "dataType": "nvarchar(255)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "values",
+            "dataType": "nvarchar(max)",
+            "isNullable": true,
+            "collation": "SQL_Latin1_General_CP1_CI_AS"
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "createdByUmbracoUserKey",
+            "dataType": "uniqueidentifier"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageSettingsTrafficFilter_id",
+          "columns": [
+            "id"
+          ]
+        },
+        "uniqueConstraints": [
+          {
+            "name": "UQ_umbracoEngageSettingsTrafficFilter_key",
+            "columns": [
+              "key"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "umbracoEngageSettingsUserGroupPermission",
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "bigint",
+            "isIdentity": true
+          },
+          {
+            "name": "accessToAnalytics",
+            "dataType": "bit"
+          },
+          {
+            "name": "accessToAbTesting",
+            "dataType": "bit"
+          },
+          {
+            "name": "accessToPersonalization",
+            "dataType": "bit"
+          },
+          {
+            "name": "accessToSettings",
+            "dataType": "bit"
+          },
+          {
+            "name": "updated",
+            "dataType": "datetime2(0)"
+          },
+          {
+            "name": "accessToProfiles",
+            "dataType": "bit",
+            "default": {
+              "definition": "((1))"
+            }
+          },
+          {
+            "name": "accessToReporting",
+            "dataType": "bit",
+            "default": {
+              "definition": "((1))"
+            }
+          },
+          {
+            "name": "key",
+            "dataType": "uniqueidentifier",
+            "default": {
+              "name": "DF_umbracoEngageSettingsUserGroupPermission_key",
+              "definition": "(newid())"
+            }
+          },
+          {
+            "name": "updatedByUmbracoUserKey",
+            "dataType": "uniqueidentifier"
+          },
+          {
+            "name": "userGroupKey",
+            "dataType": "uniqueidentifier"
+          }
+        ],
+        "primaryKey": {
+          "name": "PK_umbracoEngageSettingsUserGroupPermission",
+          "isClustered": true,
+          "columns": [
+            "id"
+          ]
+        },
+        "indexes": [
+          {
+            "name": "IX_umbracoEngageSettingsUserGroupPermission_key",
+            "keyColumns": [
+              {
+                "name": "key"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "installedFrom": "17.1.1"
+}

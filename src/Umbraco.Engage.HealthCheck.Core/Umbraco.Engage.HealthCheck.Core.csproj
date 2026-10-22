@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data/cms-states.json" LogicalName="cms-states.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ManifestSource Include="..\..\manifests\**\*.json" />
+  </ItemGroup>
+
+  <UsingTask TaskName="GzipManifests" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <Files ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+      <OutputDir ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System.IO" />
+      <Using Namespace="System.IO.Compression" />
+      <Code Type="Fragment" Language="cs"><![CDATA[
+        foreach (var file in Files)
+        {
+            var target = Path.Combine(OutputDir, file.GetMetadata("RecursiveDir"), file.GetMetadata("Filename") + file.GetMetadata("Extension") + ".gz");
+            Directory.CreateDirectory(Path.GetDirectoryName(target));
+            using (var input = File.OpenRead(file.ItemSpec))
+            using (var output = File.Create(target))
+            using (var gzip = new GZipStream(output, CompressionLevel.Optimal))
+                input.CopyTo(gzip);
+        }
+      ]]></Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="EmbedCompressedManifests" BeforeTargets="AssignTargetPaths">
+    <RemoveDir Directories="$(IntermediateOutputPath)manifests" />
+    <GzipManifests Files="@(ManifestSource)" OutputDir="$(IntermediateOutputPath)manifests" />
+    <ItemGroup>
+      <CompressedManifest Include="$(IntermediateOutputPath)manifests\**\*.json.gz" />
+      <EmbeddedResource Include="@(CompressedManifest)" LogicalName="manifests/$([System.String]::Copy('%(RecursiveDir)').Replace('\','/'))%(Filename)%(Extension)" />
+    </ItemGroup>
+  </Target>
+
+</Project>
