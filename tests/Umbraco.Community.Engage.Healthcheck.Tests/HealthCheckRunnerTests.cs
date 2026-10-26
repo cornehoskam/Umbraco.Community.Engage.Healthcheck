@@ -196,6 +196,25 @@ public class HealthCheckRunnerTests(SqlServerFixture sql) : IDisposable
     }
 
     [Fact]
+    public async Task A_login_without_view_definition_gets_a_clear_message_and_one_with_it_passes()
+    {
+        var cs = await SetUpAsync();
+        var login = "reader_" + Guid.NewGuid().ToString("N")[..8];
+        var password = "Rd!" + Guid.NewGuid().ToString("N");
+        await SqlServerFixture.ExecuteAsync(sql.ConnectionStringFor("master"), $"CREATE LOGIN [{login}] WITH PASSWORD = N'{password}', CHECK_POLICY = OFF");
+        await SqlServerFixture.ExecuteAsync(cs, $"CREATE USER [{login}] FOR LOGIN [{login}]; ALTER ROLE db_datareader ADD MEMBER [{login}];");
+        var reader = new Microsoft.Data.SqlClient.SqlConnectionStringBuilder(cs) { UserID = login, Password = password }.ConnectionString;
+
+        var ex = await Assert.ThrowsAsync<MissingPermissionException>(() => RunAsync(reader));
+        Assert.Equal(PermissionCheck.MissingViewDefinition, ex.Message);
+
+        // db_datareader plus VIEW DEFINITION is all the check needs.
+        await SqlServerFixture.ExecuteAsync(cs, $"GRANT VIEW DEFINITION TO [{login}]");
+        var report = await RunAsync(reader);
+        Assert.Equal(ExitCodes.Healthy, report.ExitCode);
+    }
+
+    [Fact]
     public async Task Without_expect_and_without_manifests_detection_is_refused()
     {
         var cs = await sql.CreateDatabaseAsync("nomani_" + Guid.NewGuid().ToString("N"));

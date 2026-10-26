@@ -193,7 +193,7 @@ check.SetAction(async (parse, ct) =>
             path, verbose), outStyle);
         return report.ExitCode;
     }
-    catch (Exception ex) when (ex is ManifestNotFoundException or NoEngageTablesException)
+    catch (Exception ex) when (ex is ManifestNotFoundException or NoEngageTablesException or MissingPermissionException)
     {
         Err(ex.Message);
         return ExitCodes.Failed;

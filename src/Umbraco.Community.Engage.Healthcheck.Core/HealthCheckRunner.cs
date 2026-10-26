@@ -38,6 +38,7 @@ public static class HealthCheckRunner
         }
 
         // Two separate connections on purpose: never join across the Engage and Umbraco databases.
+        await PermissionCheck.EnsureViewDefinitionAsync(options.EngageConnectionString, ct);
         var schema = await SqlServerSchemaReader.ReadAsync(options.EngageConnectionString, ct);
         // Wrong database or no VIEW DEFINITION: comparing would report every table as missing. Add-on tables alone don't count.
         if (!schema.Tables.Any(t => !AddOnCatalog.OwnsTable(t.Name))) throw new NoEngageTablesException();
