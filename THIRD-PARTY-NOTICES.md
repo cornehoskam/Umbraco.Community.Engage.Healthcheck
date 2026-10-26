@@ -1,6 +1,6 @@
 # Third-party notices
 
-The release zip of Engage Health Check includes the packages below; the optional stand-alone builds also include the .NET runtime. Each keeps its own licence. The health check itself is MIT-licensed (see [LICENSE](LICENSE)).
+The release zip of Umbraco.Community.Engage.Healthcheck includes the packages below; the optional stand-alone builds also include the .NET runtime. Each keeps its own licence. The health check itself is MIT-licensed (see [LICENSE](LICENSE)).
 
 ## MIT licence
 

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Testcontainers.MsSql" />
+    <ProjectReference Include="..\..\src\Umbraco.Community.Engage.Healthcheck.Core\Umbraco.Community.Engage.Healthcheck.Core.csproj" />
+    <ProjectReference Include="..\..\src\Umbraco.Community.Engage.Healthcheck.Generator\Umbraco.Community.Engage.Healthcheck.Generator.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

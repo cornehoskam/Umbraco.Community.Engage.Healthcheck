@@ -1,6 +1,6 @@
 # All releases verification, 21-10-2026
 
-Produced by `AllReleasesMatrixTests` (tests/Umbraco.Engage.HealthCheck.Tests/EndToEnd). For every release in `catalog/releases.json` it provisions a real SQL Server database the way the catalog says: the release's host and CMS version, `installFrom` staging, and add-ons installed next to their `engage` release (Engage first for `engage-first`). It then runs the real health check with no `--expect` and the embedded manifests, and checks the detection, the variant, the upgrade record, the CMS major read from the database and the exit code. The aligned and complete rows use the generator's aligned staging, and for complete the alignment scripts.
+Produced by `AllReleasesMatrixTests` (tests/Umbraco.Community.Engage.Healthcheck.Tests/EndToEnd). For every release in `catalog/releases.json` it provisions a real SQL Server database the way the catalog says: the release's host and CMS version, `installFrom` staging, and add-ons installed next to their `engage` release (Engage first for `engage-first`). It then runs the real health check with no `--expect` and the embedded manifests, and checks the detection, the variant, the upgrade record, the CMS major read from the database and the exit code. The aligned and complete rows use the generator's aligned staging, and for complete the alignment scripts.
 
 Command (the complete rows need `ENGAGE_ALIGN_SCRIPTS`, the folder with the alignment scripts from the Engage schema alignment guide):
 

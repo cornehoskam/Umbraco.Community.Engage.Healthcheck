@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Umbraco.Community.Engage.Healthcheck.Cli/Umbraco.Community.Engage.Healthcheck.Cli.csproj" />
+    <Project Path="src/Umbraco.Community.Engage.Healthcheck.Core/Umbraco.Community.Engage.Healthcheck.Core.csproj" />
+    <Project Path="src/Umbraco.Community.Engage.Healthcheck.Generator/Umbraco.Community.Engage.Healthcheck.Generator.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Umbraco.Community.Engage.Healthcheck.Tests/Umbraco.Community.Engage.Healthcheck.Tests.csproj" />
+  </Folder>
+</Solution>

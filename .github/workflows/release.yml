@@ -38,7 +38,7 @@ jobs:
         run: echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_ENV"
       - name: Publish
         run: >
-          dotnet publish src/Umbraco.Engage.HealthCheck.Cli -c Release -p:UseAppHost=false
+          dotnet publish src/Umbraco.Community.Engage.Healthcheck.Cli -c Release -p:UseAppHost=false
           -p:Version=$VERSION -o "dist/engage-healthcheck-$VERSION"
       - name: Check the version
         run: |
@@ -51,6 +51,8 @@ jobs:
           name="engage-healthcheck-$VERSION"
           rm -f "$name"/*.pdb
           cp ../README.md ../LICENSE ../THIRD-PARTY-NOTICES.md "$name/"
+          mkdir "$name/docs"
+          cp ../docs/usage.md ../docs/supported-versions.md ../docs/known-variants.md "$name/docs/"
           zip -qr "$name.zip" "$name"
           rm -rf "$name"
           sha256sum "$name.zip" > SHA256SUMS.txt
@@ -65,5 +67,5 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: >
           gh release create "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY"
-          --draft --generate-notes --title "Engage Health Check $GITHUB_REF_NAME"
+          --draft --generate-notes --title "Umbraco.Community.Engage.Healthcheck $GITHUB_REF_NAME"
           $([[ "$GITHUB_REF_NAME" == v0.* || "$GITHUB_REF_NAME" == *-* ]] && echo --prerelease)
