@@ -2,7 +2,7 @@
 
 [![Latest release](https://img.shields.io/github/v/release/cornehoskam/Umbraco.Community.Engage.Healthcheck?include_prereleases&color=0273B3)](https://github.com/cornehoskam/Umbraco.Community.Engage.Healthcheck/releases)
 [![CI](https://github.com/cornehoskam/Umbraco.Community.Engage.Healthcheck/actions/workflows/ci.yml/badge.svg)](https://github.com/cornehoskam/Umbraco.Community.Engage.Healthcheck/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/github/license/cornehoskam/Umbraco.Community.Engage.Healthcheck?color=8AB803)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-8AB803)](LICENSE)
 
 A small command-line tool for developers who need to know what state an [Umbraco Engage](https://umbraco.com/products/umbraco-engage/) database is in. Point it at a database and it tells you which Engage version the schema belongs to, whether the schema alignment has been completed, and every table, column, index or key that differs from what that version should have.
 
