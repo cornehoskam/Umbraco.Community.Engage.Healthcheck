@@ -1,6 +1,6 @@
 # Engage Healthcheck
 
-[![Latest release](https://img.shields.io/github/v/release/cornehoskam/Umbraco.Community.Engage.Healthcheck?include_prereleases&color=0273B3)](https://github.com/cornehoskam/Umbraco.Community.Engage.Healthcheck/releases)
+[![Latest release](https://img.shields.io/github/v/release/cornehoskam/Umbraco.Community.Engage.Healthcheck?include_prereleases&label=release&color=0273B3)](https://github.com/cornehoskam/Umbraco.Community.Engage.Healthcheck/releases)
 [![CI](https://github.com/cornehoskam/Umbraco.Community.Engage.Healthcheck/actions/workflows/ci.yml/badge.svg)](https://github.com/cornehoskam/Umbraco.Community.Engage.Healthcheck/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-8AB803)](LICENSE)
 
